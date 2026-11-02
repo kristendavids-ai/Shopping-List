@@ -1,0 +1,801 @@
+<title>Our Nest</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@500;600;700;800&family=Instrument+Sans:wght@400;500;600&display=swap">
+<style>
+/* Layout: one phone-width column, colour-block cards stacked like a wallet, black pill nav floating at the bottom */
+:root{
+  --bg:#F4EBC9; --bg-deep:#E8DDB5; --ink:#141414; --muted:#6E6753; --line:rgba(20,20,20,.28); --line-soft:rgba(20,20,20,.12);
+  --on-card:#141414; --on-card-muted:rgba(20,20,20,.62);
+  --orange:#EB7A52; --blue:#9EB8DF; --yellow:#F3D14E; --mint:#8ECDB6; --sand:#CDB78C; --grey:#C9C4B6;
+  --nav-bg:#141414; --nav-fg:#F4EBC9; --nav-active:#5B5B57;
+  --chip-bg:rgba(20,20,20,.07); --sheet:#F7F0D6; --danger:#C2361F;
+  --display:"Schibsted Grotesk","Helvetica Neue",Arial,sans-serif;
+  --body:"Instrument Sans","Helvetica Neue",Arial,sans-serif;
+  --r:22px;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#191814; --bg-deep:#24221C; --ink:#F2EBD5; --muted:#A79F88; --line:rgba(242,235,213,.24); --line-soft:rgba(242,235,213,.1);
+  --orange:#E5714A; --blue:#93ADD6; --yellow:#E9C743; --mint:#82C3AB; --sand:#C2AB80; --grey:#B9B4A6;
+  --nav-bg:#F2EBD5; --nav-fg:#191814; --nav-active:#CFC6AB; --chip-bg:rgba(242,235,213,.08); --sheet:#23211B; --danger:#F07A62;
+  color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#191814; --bg-deep:#24221C; --ink:#F2EBD5; --muted:#A79F88; --line:rgba(242,235,213,.24); --line-soft:rgba(242,235,213,.1);
+  --orange:#E5714A; --blue:#93ADD6; --yellow:#E9C743; --mint:#82C3AB; --sand:#C2AB80; --grey:#B9B4A6;
+  --nav-bg:#F2EBD5; --nav-fg:#191814; --nav-active:#CFC6AB; --chip-bg:rgba(242,235,213,.08); --sheet:#23211B; --danger:#F07A62;
+  color-scheme:dark}
+*{box-sizing:border-box}
+html,body{background:var(--bg);color:var(--ink)}
+body{font-family:var(--body);font-size:15px;line-height:1.4;-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer;background:none;border:0;padding:0}
+:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+h1,h2,h3{font-family:var(--display);margin:0;text-wrap:balance;letter-spacing:-.01em}
+.app{max-width:520px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:16px 120px;display:flex;flex-direction:column;gap:22px}
+.num{font-variant-numeric:normal}
+.bcol .v,.item .px{font-variant-numeric:tabular-nums}
+.muted{color:var(--muted)}
+.svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
+
+/* header */
+.top{display:flex;align-items:center;gap:12px}
+.top h1{font-size:24px;font-weight:700;flex:1;min-width:0}
+.top .sub{font-size:13px;color:var(--muted);font-weight:500}
+.circle-btn{width:44px;height:44px;border-radius:50%;border:1.5px solid var(--line);display:grid;place-items:center;flex:none}
+.pill-btn{border:1.5px solid var(--line);border-radius:99px;padding:6px 14px;font-size:13px;font-weight:600;white-space:nowrap}
+.avs{display:flex}
+.av{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;font-family:var(--display);font-weight:700;font-size:14px;color:var(--on-card);border:2px solid var(--bg);overflow:hidden;flex:none}
+.av img{width:100%;height:100%;object-fit:cover}
+.avs .av+.av{margin-left:-12px}
+.av.s{width:22px;height:22px;font-size:10px;border-width:1.5px}
+
+.sec-head{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.sec-head h2{font-size:20px;font-weight:700}
+
+/* hero balance card */
+.hero{background:var(--orange);color:var(--on-card);border-radius:var(--r);padding:20px 22px;display:flex;flex-direction:column;gap:14px}
+.hero .lbl{font-weight:500;font-size:14px;display:flex;justify-content:space-between;gap:8px}
+.big{font-family:var(--display);font-weight:700;font-size:44px;line-height:1;letter-spacing:-.02em}
+.big .c{opacity:.55}
+.split{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.split>div{background:rgba(255,255,255,.22);border-radius:14px;padding:10px 12px;min-width:0}
+.split b{font-family:var(--display);font-size:17px;display:block}
+.split small{font-size:12px;color:var(--on-card-muted)}
+.bar{height:6px;border-radius:9px;background:rgba(20,20,20,.15);overflow:hidden;margin-top:8px}
+.bar i{display:block;height:100%;background:var(--on-card);border-radius:9px}
+
+/* outlined tiles row */
+.hscroll{display:flex;gap:12px;overflow-x:auto;padding-bottom:4px;margin-inline:-4px;padding-inline:4px;scrollbar-width:none}
+.tile{border:1.5px solid var(--line);border-radius:var(--r);padding:14px;min-width:168px;flex:none;display:flex;flex-direction:column;gap:12px;text-align:left}
+.tile .row{display:flex;gap:10px;align-items:flex-start}
+.ico{width:40px;height:40px;border-radius:10px;background:var(--chip-bg);display:grid;place-items:center;flex:none}
+.tile b{font-family:var(--display);font-size:17px;display:block}
+.tile small{color:var(--muted);font-size:12px}
+.tile strong{font-family:var(--display);font-weight:600;font-size:16px}
+
+/* colour list cards */
+.cards{display:flex;flex-direction:column;gap:10px}
+.ccard{border-radius:var(--r);padding:16px 18px;color:var(--on-card);display:flex;gap:14px;align-items:center;text-align:left;width:100%}
+.ccard .ico{background:rgba(255,255,255,.35);width:46px;height:46px;border-radius:12px;font-family:var(--display);font-weight:800;font-size:20px}
+.ccard .main{flex:1;min-width:0}
+.ccard .t{font-family:var(--display);font-weight:600;font-size:17px;overflow-wrap:anywhere}
+.ccard .s{font-size:12.5px;color:var(--on-card-muted)}
+.ccard .amt{font-family:var(--display);font-weight:600;font-size:17px;text-align:right;white-space:nowrap}
+.ccard .amt small{display:block;font-family:var(--body);font-weight:500;font-size:12px;color:var(--on-card-muted)}
+.c-orange{background:var(--orange)}.c-blue{background:var(--blue)}.c-yellow{background:var(--yellow)}.c-mint{background:var(--mint)}.c-sand{background:var(--sand)}.c-grey{background:var(--grey)}
+
+.outline{border:1.5px solid var(--line);border-radius:var(--r);padding:16px 18px}
+.empty{border:1.5px dashed var(--line);border-radius:var(--r);padding:22px 18px;text-align:center;color:var(--muted);display:flex;flex-direction:column;gap:10px;align-items:center}
+.empty b{color:var(--ink);font-family:var(--display);font-size:17px}
+
+/* forms */
+.qa{display:flex;gap:8px}
+.field{background:transparent;border:1.5px solid var(--line);border-radius:14px;padding:12px 14px;width:100%;min-width:0;outline:none}
+.field:focus{border-color:var(--ink)}
+textarea.field{resize:vertical;min-height:96px;line-height:1.5}
+.btn{background:var(--ink);color:var(--bg);border-radius:99px;padding:13px 20px;font-weight:600;font-family:var(--display);white-space:nowrap;text-align:center}
+.btn.ghost{background:transparent;color:var(--ink);border:1.5px solid var(--line)}
+.btn.danger{background:transparent;color:var(--danger);border:1.5px solid currentColor}
+.btn.full{width:100%}
+.btn:disabled{opacity:.4;cursor:default}
+.form{display:flex;flex-direction:column;gap:12px}
+.form label{display:flex;flex-direction:column;gap:6px;font-size:12px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--muted)}
+.form label .field{font-size:15px;letter-spacing:0;text-transform:none;color:var(--ink);font-weight:400}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.chips{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
+.chip{border:1.5px solid var(--line);border-radius:99px;padding:7px 14px;font-size:13px;font-weight:600;white-space:nowrap;flex:none}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.seg{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;background:var(--chip-bg);border-radius:99px;padding:4px}
+.seg button{border-radius:99px;padding:9px;font-weight:600;font-family:var(--display);font-size:14px}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+.swatches{display:flex;gap:8px;flex-wrap:wrap}
+.sw{width:32px;height:32px;border-radius:50%;border:2px solid transparent}
+.sw[aria-pressed="true"]{border-color:var(--ink);box-shadow:inset 0 0 0 3px var(--sheet)}
+
+/* shopping */
+.aisle{border-radius:var(--r);padding:14px 16px 8px;color:var(--on-card)}
+.aisle h3{font-size:12px;letter-spacing:.08em;text-transform:uppercase;font-weight:700;color:var(--on-card-muted);font-family:var(--body);margin-bottom:4px;display:flex;justify-content:space-between}
+.item{display:flex;align-items:center;gap:12px;padding:9px 0;border-top:1px solid rgba(20,20,20,.12)}
+.item:first-of-type{border-top:0}
+.tick{width:26px;height:26px;border-radius:50%;border:1.8px solid currentColor;display:grid;place-items:center;flex:none}
+.tick .svg{width:16px;height:16px;stroke-width:2.6;opacity:0}
+.done .tick{background:var(--on-card);color:var(--on-card)}
+.done .tick .svg{opacity:1;stroke:var(--bg)}
+.item .nm{flex:1;min-width:0;text-align:left;font-weight:500;font-size:16px;overflow-wrap:anywhere}
+.item .nm small{display:block;font-size:12px;color:var(--on-card-muted);font-weight:400}
+.item .px{font-variant-numeric:tabular-nums;font-size:13px;color:var(--on-card-muted)}
+.basket{background:var(--ink);color:var(--bg);border-radius:var(--r);padding:16px 18px;display:flex;flex-direction:column;gap:6px}
+.basket .item{border-color:rgba(127,127,127,.25)}
+.basket .item .nm{text-decoration:line-through;opacity:.7}
+.basket .tick{color:var(--bg);background:var(--bg)}
+.basket .tick .svg{opacity:1;stroke:var(--ink)}
+.basket .item .px{color:inherit;opacity:.6}
+.basket .btn{background:var(--bg);color:var(--ink);margin-top:8px}
+
+/* recipes */
+.rgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.rcard{border-radius:var(--r);padding:16px;color:var(--on-card);min-height:170px;display:flex;flex-direction:column;justify-content:space-between;gap:16px;text-align:left}
+.rcard .mono{font-family:var(--display);font-weight:800;font-size:44px;line-height:.9;letter-spacing:-.04em}
+.rcard .t{font-family:var(--display);font-weight:700;font-size:17px;line-height:1.15;overflow-wrap:anywhere}
+.rcard .s{font-size:12px;color:var(--on-card-muted);margin-top:4px}
+.ing{display:flex;gap:12px;align-items:center;padding:10px 0;border-top:1px solid var(--line-soft);text-align:left;width:100%}
+.ing .tick{color:var(--ink)}
+.ing[aria-pressed="true"] .tick{background:var(--ink)}
+.ing[aria-pressed="true"] .tick .svg{opacity:1;stroke:var(--bg)}
+.steps{margin:0;padding-left:22px;display:flex;flex-direction:column;gap:10px;line-height:1.55;max-width:65ch}
+
+/* nest */
+.mood{columns:2;column-gap:10px}
+.mtile{break-inside:avoid;margin-bottom:10px;border-radius:var(--r);overflow:hidden;color:var(--on-card);display:block;width:100%;text-align:left;position:relative}
+.mtile img{display:block;width:100%;height:auto}
+.mtile .swatch{aspect-ratio:var(--ar,1);max-width:100%}
+.mtile .cap{padding:10px 12px 12px;background:var(--sand)}
+.mtile .cap b{font-family:var(--display);font-size:15px;display:block;overflow-wrap:anywhere}
+.mtile .cap small{font-size:12px;color:var(--on-card-muted)}
+.heart{position:absolute;top:10px;right:10px;background:rgba(247,240,214,.9);color:#141414;border-radius:99px;padding:5px 9px 5px 7px;display:flex;align-items:center;gap:4px;font-size:12px;font-weight:700}
+.heart .svg{width:16px;height:16px}
+.heart.on .svg{fill:#E0472A;stroke:#E0472A}
+.status{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;border:1.5px solid currentColor;border-radius:99px;padding:3px 8px;white-space:nowrap}
+.prow{display:flex;gap:12px;align-items:center}
+.prow .main{flex:1;min-width:0}
+.prow .t{font-family:var(--display);font-weight:600;font-size:16px;overflow-wrap:anywhere}
+.prow .s{font-size:12.5px;color:var(--muted)}
+.thumb{width:52px;height:52px;border-radius:12px;flex:none;overflow:hidden;background:var(--sand)}
+.thumb img{width:100%;height:100%;object-fit:cover}
+.mini-btn{border:1.5px solid var(--line);border-radius:99px;padding:6px 12px;font-size:12.5px;font-weight:600;white-space:nowrap}
+.warn{color:var(--danger);font-weight:600}
+
+/* budget */
+.chart{background:var(--bg-deep);border-radius:var(--r);padding:18px 14px 12px}
+.bars{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:6px;height:190px;align-items:end;position:relative}
+.bars::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(to top,transparent 0 calc(25% - 1px),var(--line-soft) calc(25% - 1px) 25%);pointer-events:none}
+.bcol{display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;position:relative;gap:4px}
+.bcol .v{font-size:11px;color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}
+.bcol.max .v{color:var(--orange);font-weight:700}
+.stack{width:min(16px,60%);display:flex;flex-direction:column;border-radius:99px;overflow:hidden;min-height:0}
+.stack .g{background:var(--ink)}
+.stack .h{background:var(--orange)}
+.blabels{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:6px;margin-top:8px;font-size:12px;font-weight:500;text-align:center}
+.legend{display:flex;gap:16px;font-size:12px;color:var(--muted);margin-top:10px;justify-content:center}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+.env{display:flex;flex-direction:column;gap:6px}
+.env .r{display:flex;justify-content:space-between;gap:8px;align-items:baseline}
+.env b{font-family:var(--display);font-size:16px}
+.env .bar{background:var(--line-soft)}
+.env .bar i{background:var(--ink)}
+.env .bar i.over{background:var(--danger)}
+.settle{display:flex;align-items:center;gap:14px}
+.settle .main{flex:1;min-width:0}
+.settle b{font-family:var(--display);font-size:17px}
+
+/* nav */
+.nav{position:fixed;left:0;right:0;bottom:0;padding:0 max(16px,env(safe-area-inset-right,0px)) calc(14px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));z-index:20;pointer-events:none}
+.nav-in{max-width:488px;margin:0 auto;background:var(--nav-bg);color:var(--nav-fg);border-radius:99px;padding:6px;display:grid;grid-template-columns:repeat(5,1fr);pointer-events:auto;box-shadow:0 10px 30px rgba(0,0,0,.18)}
+.nav button{height:48px;border-radius:99px;display:grid;place-items:center;color:var(--nav-fg);transition:background .2s}
+.nav button[aria-current="page"]{background:var(--nav-active);color:var(--nav-bg)}
+
+/* sheet */
+.scrim{position:fixed;inset:0;background:rgba(10,10,8,.45);z-index:30;display:flex;align-items:flex-end;justify-content:center}
+.sheet{background:var(--sheet);color:var(--ink);width:100%;max-width:560px;max-height:92%;overflow:auto;border-radius:28px 28px 0 0;padding:10px max(20px,env(safe-area-inset-right,0px)) calc(24px + env(safe-area-inset-bottom,0px)) max(20px,env(safe-area-inset-left,0px));display:flex;flex-direction:column;gap:16px;animation:up .28s cubic-bezier(.2,.8,.2,1)}
+.grab{width:40px;height:5px;border-radius:9px;background:var(--line);margin:0 auto 4px}
+.sheet-head{display:flex;align-items:center;gap:12px}
+.sheet-head h2{flex:1;font-size:22px;min-width:0;overflow-wrap:anywhere}
+@keyframes up{from{transform:translateY(40px);opacity:0}}
+.banner{font-size:12.5px;color:var(--muted);border:1.5px dashed var(--line);border-radius:14px;padding:10px 12px}
+.toast{position:fixed;left:50%;bottom:calc(84px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);border-radius:99px;padding:10px 18px;font-weight:600;font-size:14px;z-index:40;max-width:calc(100% - 32px);text-align:center}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+@media (max-width:360px){.big{font-size:38px}.rgrid{grid-template-columns:1fr}}
+</style>
+
+<main class="app" id="view" aria-live="polite"></main>
+<nav class="nav" aria-label="Sections"><div class="nav-in" id="nav"></div></nav>
+<div id="sheet-root"></div>
+<div class="toast" id="toast" hidden></div>
+
+<script>
+(() => {
+const I = {
+  home:'<path d="M4 10.5 12 4l8 6.5V20a1 1 0 0 1-1 1h-4.5v-6h-5v6H5a1 1 0 0 1-1-1z"/>',
+  list:'<path d="M5 9h14l-1.4 9.2a2 2 0 0 1-2 1.8H8.4a2 2 0 0 1-2-1.8z"/><path d="M9 9l3-5 3 5"/>',
+  recipes:'<path d="M5 4.5A1.5 1.5 0 0 1 6.5 3H19v15H6.5A1.5 1.5 0 0 0 5 19.5z"/><path d="M5 19.5A1.5 1.5 0 0 0 6.5 21H19v-3"/>',
+  nest:'<path d="M5 11V8a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v3"/><path d="M3 13a2 2 0 0 1 4 0v2h10v-2a2 2 0 0 1 4 0v4a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1z"/><path d="M6 18v2M18 18v2"/>',
+  budget:'<path d="M4 20h16"/><path d="M7 16v-5M12 16V6M17 16v-8"/>',
+  plus:'<path d="M12 5v14M5 12h14"/>', check:'<path d="m5 12.5 4.5 4.5L19 7"/>',
+  heart:'<path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/>',
+  x:'<path d="M6 6l12 12M18 6 6 18"/>', back:'<path d="m15 6-6 6 6 6"/>',
+  img:'<rect x="3.5" y="4.5" width="17" height="15" rx="2"/><circle cx="9" cy="10" r="1.6"/><path d="m4 17 5-4.5 4 3.5 2.5-2 4.5 3.5"/>'
+};
+const ic = (n, cls='') => `<svg class="svg ${cls}" viewBox="0 0 24 24" aria-hidden="true">${I[n]}</svg>`;
+const TABS = [['home','Home'],['list','Shopping list'],['recipes','Recipes'],['nest','Home & furniture'],['budget','Budget']];
+const COLORS = ['orange','blue','yellow','mint','sand','grey'];
+const AISLES = [
+  ['Produce','mint',/\b(apple|banana|avocado|lemon|lime|onion|shallot|garlic|tomato|potato|carrot|lettuce|spinach|rocket|arugula|herb|basil|cilantro|coriander|parsley|mint|pepper|chilli|chili|cucumber|berr|grape|orange|ginger|mushroom|zucchini|courgette|broccoli|kale|cabbage|celery|leek|squash|pumpkin|fruit|veg|salad|scallion|spring onion)/],
+  ['Dairy & eggs','blue',/\b(milk|cheese|yog(h)?urt|butter|cream|egg|feta|parmesan|mozzarella|ricotta|cheddar|halloumi)/],
+  ['Bakery','sand',/\b(bread|bagel|baguette|tortilla|wrap|bun|croissant|pita|naan|sourdough)/],
+  ['Meat & fish','orange',/\b(chicken|beef|pork|salmon|fish|cod|shrimp|prawn|bacon|sausage|turkey|tuna|lamb|mince|chorizo|ham)/],
+  ['Pantry','yellow',/\b(rice|pasta|spaghetti|flour|sugar|oil|salt|bean|lentil|chickpea|sauce|stock|broth|spice|cumin|paprika|cinnamon|honey|vinegar|oat|coffee|tea|cereal|nut|tin|canned|noodle|soy|miso|tahini|mustard|ketchup|mayo|jam|chocolate|curry|coconut|quinoa|couscous|wine)/],
+  ['Frozen','blue',/\b(frozen|ice cream|peas)/],
+  ['Household','grey',/\b(soap|detergent|paper|towel|tissue|sponge|bin bag|trash|toothpaste|shampoo|foil|cling|batter(y|ies)|bulb|cleaner|dish)/],
+  ['Other','grey',null]
+];
+const AISLE_COLOR = Object.fromEntries(AISLES.map(a=>[a[0],a[1]]));
+const ROOMS = ['Living room','Bedroom','Kitchen','Dining','Bathroom','Office','Hallway','Outdoor'];
+const STATUS = {idea:['Idea','On the moodboard'],planned:['To buy','On the purchase list'],bought:['Bought','Paid for']};
+const DEFAULTS = {groceries:600, home:4000};
+
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const money = n => (n<0?'-':'') + '$' + Math.abs(+n||0).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+const money0 = n => (n<0?'-':'') + '$' + Math.round(Math.abs(+n||0)).toLocaleString('en-US');
+const bigMoney = n => { const s = money(n); const i = s.lastIndexOf('.'); return `${s.slice(0,i)}<span class="c">${s.slice(i)}</span>`; };
+const num = v => { const n = parseFloat(String(v).replace(/[^0-9.\-]/g,'')); return isFinite(n) ? n : 0; };
+const today = () => { const d = new Date(); return iso(d); };
+const iso = d => `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+const parseD = s => { const [y,m,d] = String(s).split('-').map(Number); return new Date(y, (m||1)-1, d||1); };
+const fmtDate = s => parseD(s).toLocaleDateString('en-US',{month:'short',day:'numeric'});
+const monthKey = s => String(s||'').slice(0,7);
+const thisMonth = () => today().slice(0,7);
+const monthName = () => new Date().toLocaleDateString('en-US',{month:'long'});
+const hashColor = s => { let h=0; for (const c of String(s)) h=(h*31+c.charCodeAt(0))>>>0; return COLORS[h%5]; };
+const guessAisle = name => { const n = ' '+String(name).toLowerCase(); for (const [a,,re] of AISLES) if (re && re.test(n)) return a; return 'Other'; };
+const parseIng = line => {
+  const m = String(line).trim().match(/^((?:\d+[\d\/.,]*|[½¼¾⅓⅔])\s*(?:-\s*\d+\s*)?(?:g|kg|ml|l|oz|lb|cups?|tbsp|tsp|cloves?|cans?|tins?|bunch(?:es)?|handful|pinch|x|pcs?|slices?)?\.?)\s+(.+)$/i);
+  return m ? {qty:m[1].trim(), name:m[2].trim()} : {qty:'', name:String(line).trim()};
+};
+const rid = () => Math.random().toString(36).slice(2,10) + Date.now().toString(36);
+
+/* ---------- state ---------- */
+const S = {shop:[], recipes:[], furniture:[], spend:[], settings:{}};
+const COLS = ['shop','recipes','furniture','spend'];
+let mode = 'loading', db = null, userApi = null, assets = null, me = null, people = {};
+const ui = { tab:'home', rtag:'All', rq:'', nestView:'board', room:'All', range:'week' };
+try { const h = location.hash.slice(1); if (TABS.some(t=>t[0]===h)) ui.tab = h; } catch {}
+
+const limits = () => ({ groceries: num(S.settings.groceries ?? DEFAULTS.groceries) || DEFAULTS.groceries, home: num(S.settings.home ?? DEFAULTS.home) || DEFAULTS.home });
+
+/* ---------- store adapter ---------- */
+const LKEY = 'our-nest-local-v1';
+function goLocal() {
+  if (mode === 'live') return;
+  mode = 'local';
+  try { const saved = JSON.parse(localStorage.getItem(LKEY) || 'null'); if (saved) Object.assign(S, saved); } catch {}
+  render();
+}
+function saveLocal() { try { localStorage.setItem(LKEY, JSON.stringify(S)); } catch {} }
+const errMsg = e => e && e.code === 'quota_exceeded' ? 'Storage is full. Delete a few old items and try again.'
+  : e && e.code === 'invalid_argument' ? 'You have view-only access, so changes can’t be saved.'
+  : 'That didn’t save. Check your connection and try again.';
+async function add(col, data) {
+  data = {by: me || 'me', createdAt: Date.now(), ...data};
+  if (mode === 'live') {
+    try { const ref = await db.collection(col).add(data); return ref.id; } catch (e) { toast(errMsg(e)); return null; }
+  }
+  const id = rid(); S[col].push({id, ...data}); saveLocal(); render(); return id;
+}
+async function upd(col, id, patch) {
+  if (mode === 'live') { try { await db.collection(col).doc(id).update(patch); } catch (e) { toast(errMsg(e)); } return; }
+  const it = S[col].find(x => x.id === id); if (it) Object.assign(it, patch); saveLocal(); render();
+}
+async function del(col, id) {
+  if (mode === 'live') { try { await db.collection(col).doc(id).delete(); } catch (e) { toast(errMsg(e)); } return; }
+  S[col] = S[col].filter(x => x.id !== id); saveLocal(); render();
+}
+async function saveSettings(patch) {
+  const next = {...S.settings, ...patch};
+  if (mode === 'live') { try { await db.doc('budget/settings').set(next); } catch (e) { toast(errMsg(e)); } return; }
+  S.settings = next; saveLocal(); render();
+}
+
+/* ---------- people ---------- */
+let peopleKey = '';
+function idsInUse() {
+  const s = new Set(); if (me) s.add(me);
+  for (const c of COLS) for (const d of S[c]) { if (d.by && d.by !== 'me') s.add(d.by); (d.likes||[]).forEach(x => s.add(x)); }
+  return [...s];
+}
+let profTimer;
+function refreshPeople() {
+  if (!userApi) return;
+  clearTimeout(profTimer);
+  profTimer = setTimeout(async () => {
+    const ids = idsInUse(); if (!ids.length) return;
+    try {
+      const p = await userApi.profiles(ids);
+      const key = JSON.stringify(Object.entries(p).map(([k,v]) => [k, v.name, v.avatarUrl]));
+      if (key !== peopleKey) { peopleKey = key; people = p; render(); }
+    } catch {}
+  }, 150);
+}
+const partnerId = () => idsInUse().find(x => x !== me) || null;
+const firstName = id => { if (!id || id === 'me' || id === me) return 'You'; const n = (people[id]?.name || '').split(' ')[0]; return n || 'Partner'; };
+function avatar(id, cls='') {
+  const p = people[id]; const isMe = !id || id === me || id === 'me';
+  const label = isMe ? (people[me]?.name || 'You') : (p?.name || 'Partner');
+  const initial = esc((label.trim()[0] || '?').toUpperCase());
+  const bg = isMe ? 'var(--yellow)' : 'var(--blue)';
+  const inner = p?.avatarUrl ? `<img src="${esc(p.avatarUrl)}" alt="">` : initial;
+  return `<span class="av ${cls}" style="background:${bg}" title="${esc(label)}">${inner}</span>`;
+}
+
+/* ---------- derived numbers ---------- */
+function totals() {
+  const L = limits(), m = thisMonth();
+  const groc = S.spend.filter(s => s.section === 'groceries' && monthKey(s.date) === m).reduce((a,s) => a + num(s.amount), 0);
+  const home = S.spend.filter(s => s.section === 'home').reduce((a,s) => a + num(s.amount), 0);
+  const planned = S.furniture.filter(f => f.status === 'planned').reduce((a,f) => a + num(f.price), 0);
+  return {L, groc, home, planned, grocLeft: L.groceries - groc, homeLeft: L.home - home};
+}
+function settle() {
+  const m = thisMonth(), by = {};
+  for (const s of S.spend) if (monthKey(s.date) === m) { const k = s.by === 'me' ? (me||'me') : s.by; by[k] = (by[k]||0) + num(s.amount); }
+  const ids = Object.keys(by);
+  if (ids.length < 2) return {ids, by, owes:null};
+  const [a,b] = ids.sort((x,y) => by[y]-by[x]);
+  const diff = (by[a] - by[b]) / 2;
+  return {ids, by, owes: diff < 0.005 ? null : {from:b, to:a, amount:diff}};
+}
+
+/* ---------- views ---------- */
+function header(title, sub, action) {
+  const ids = [me, partnerId()].filter(Boolean);
+  return `<header class="top">
+    ${ui.tab === 'home' ? `<div class="avs">${(ids.length ? ids : [null]).map(i => avatar(i)).join('')}</div>` : ''}
+    <div style="flex:1;min-width:0"><h1>${esc(title)}</h1>${sub ? `<div class="sub">${sub}</div>` : ''}</div>
+    ${action || ''}
+  </header>`;
+}
+const banner = () => mode === 'local' ? `<div class="banner">Not syncing right now. Changes are kept on this device only. Open the shared link while signed in to sync with your partner.</div>` : '';
+
+function vHome() {
+  const t = totals(), L = t.L;
+  const left = t.grocLeft + t.homeLeft;
+  const open = S.shop.filter(x => !x.done);
+  const est = open.reduce((a,x) => a + num(x.price), 0);
+  const next = S.furniture.filter(f => f.status === 'planned').sort((a,b) => num(a.price)-num(b.price));
+  const recent = [...S.spend].sort((a,b) => (b.date||'').localeCompare(a.date||'') || b.createdAt - a.createdAt).slice(0,4);
+  const st = settle();
+  const pct = (v, l) => Math.max(0, Math.min(100, v / l * 100));
+  return `${header('Our Nest', new Date().toLocaleDateString('en-US',{weekday:'long', month:'long', day:'numeric'}), `<button class="circle-btn" data-act="quick" aria-label="Add something">${ic('plus')}</button>`)}
+  ${banner()}
+  <section class="hero" aria-label="Shared budget">
+    <div class="lbl"><span>Left to spend together</span><span class="num">${monthName()}</span></div>
+    <div class="big num">${bigMoney(left)}</div>
+    <div class="split">
+      <button data-go="list" style="text-align:left"><small>Groceries this month</small><b class="num">${money0(t.grocLeft)} left</b><small class="num">${money0(t.groc)} of ${money0(L.groceries)}</small><div class="bar"><i style="width:${pct(t.groc, L.groceries)}%"></i></div></button>
+      <button data-go="nest" style="text-align:left"><small>Home fund</small><b class="num">${money0(t.homeLeft)} left</b><small class="num">${money0(t.home)} of ${money0(L.home)}</small><div class="bar"><i style="width:${pct(t.home, L.home)}%"></i></div></button>
+    </div>
+  </section>
+
+  <section style="display:flex;flex-direction:column;gap:12px">
+    <div class="sec-head"><h2>Up next</h2></div>
+    <div class="hscroll">
+      <button class="tile" data-go="list"><div class="row"><span class="ico">${ic('list')}</span><div><strong class="num">${open.length} item${open.length===1?'':'s'}</strong><br><small>${est ? 'about ' + money0(est) : 'nothing priced yet'}</small></div></div><b>Shopping list</b></button>
+      ${next.slice(0,3).map(f => `<button class="tile" data-act="furn-edit" data-id="${f.id}"><div class="row"><span class="ico">${ic('nest')}</span><div><strong class="num">${money(f.price)}</strong><br><small>${esc(f.room || 'Home')}</small></div></div><b>${esc(f.name)}</b></button>`).join('')}
+      <button class="tile" data-go="recipes"><div class="row"><span class="ico">${ic('recipes')}</span><div><strong class="num">${S.recipes.length} saved</strong><br><small>recipe book</small></div></div><b>Cook something</b></button>
+    </div>
+  </section>
+
+  ${st.owes ? `<section class="outline settle">${avatar(st.owes.from)}<div class="main"><b>${esc(firstName(st.owes.from))} ${st.owes.from===me?'owe':'owes'} ${esc(firstName(st.owes.to)==='You'?'you':firstName(st.owes.to))} ${money(st.owes.amount)}</b><div class="muted" style="font-size:13px">To split ${monthName()} spending 50/50</div></div><button class="pill-btn" data-go="budget">Details</button></section>` : ''}
+
+  <section style="display:flex;flex-direction:column;gap:12px">
+    <div class="sec-head"><h2>Recent spending</h2><button class="pill-btn" data-go="budget">View all</button></div>
+    ${recent.length ? `<div class="cards">${recent.map(spendCard).join('')}</div>` :
+      `<div class="empty"><b>No spending logged yet</b><span>Check out a grocery trip from the list, mark furniture as bought, or log an expense by hand.</span><button class="btn" data-act="spend-new">Log an expense</button></div>`}
+  </section>`;
+}
+function spendCard(s) {
+  const home = s.section === 'home';
+  return `<button class="ccard ${home ? 'c-orange' : (s.items ? 'c-mint' : 'c-blue')}" data-act="spend-edit" data-id="${s.id}">
+    <span class="ico">${ic(home ? 'nest' : 'list')}</span>
+    <span class="main"><span class="t">${esc(s.label || (home ? 'Home' : 'Groceries'))}</span><br><span class="s">${fmtDate(s.date)} · ${home ? 'Home fund' : 'Groceries'} · ${esc(firstName(s.by))}</span></span>
+    <span class="amt num">-${money(s.amount)}</span></button>`;
+}
+
+function vList() {
+  const open = S.shop.filter(x => !x.done), done = S.shop.filter(x => x.done);
+  const est = done.reduce((a,x) => a + num(x.price), 0);
+  const groups = AISLES.map(([a]) => [a, open.filter(x => (x.aisle || 'Other') === a).sort((p,q) => p.createdAt - q.createdAt)]).filter(g => g[1].length);
+  const t = totals();
+  return `${header('Shopping list', `${open.length} to get · ${money0(t.grocLeft)} left for groceries in ${monthName()}`)}
+  ${banner()}
+  <form class="qa" data-form="shop-quick" autocomplete="off">
+    <input class="field" id="shop-quick-name" name="name" placeholder="Add an item, e.g. 2 avocados" aria-label="New item" enterkeyhint="done">
+    <button class="btn" type="submit" aria-label="Add item">${ic('plus')}</button>
+  </form>
+  ${groups.length ? groups.map(([a, items]) => `<section class="aisle c-${AISLE_COLOR[a]}"><h3><span>${esc(a)}</span><span class="num">${items.length}</span></h3>${items.map(itemRow).join('')}</section>`).join('')
+    : (done.length ? '' : `<div class="empty"><b>The list is empty</b><span>Type above to add items. They’re sorted into aisles automatically, and anything you add shows up on your partner’s phone straight away.</span></div>`)}
+  ${done.length ? `<section class="basket"><h3 style="font-size:12px;letter-spacing:.08em;text-transform:uppercase;font-family:var(--body);opacity:.7;display:flex;justify-content:space-between"><span>In the basket</span><span class="num">${done.length}</span></h3>
+    ${done.map(itemRow).join('')}
+    <button class="btn full" data-act="checkout">Check out${est ? ' · about ' + money(est) : ''}</button></section>` : ''}`;
+}
+function itemRow(x) {
+  return `<div class="item ${x.done ? 'done' : ''}">
+    <button class="tick" data-act="shop-toggle" data-id="${x.id}" aria-label="${x.done ? 'Put back' : 'Got it'}: ${esc(x.name)}">${ic('check')}</button>
+    <button class="nm" data-act="shop-edit" data-id="${x.id}">${esc(x.name)}${x.qty || x.recipe ? `<small>${esc([x.qty, x.recipe ? 'for ' + x.recipe : ''].filter(Boolean).join(' · '))}</small>` : ''}</button>
+    ${x.price ? `<span class="px">${money(x.price)}</span>` : ''}
+    ${avatar(x.by, 's')}
+  </div>`;
+}
+
+function vRecipes() {
+  const tags = ['All', ...new Set(S.recipes.map(r => (r.tag||'').trim()).filter(Boolean))];
+  if (!tags.includes(ui.rtag)) ui.rtag = 'All';
+  const q = ui.rq.toLowerCase();
+  const list = S.recipes.filter(r => (ui.rtag === 'All' || r.tag === ui.rtag) && (!q || (r.title + ' ' + (r.ingredients||[]).join(' ')).toLowerCase().includes(q)))
+    .sort((a,b) => String(a.title).localeCompare(String(b.title)));
+  return `${header('Recipe book', `${S.recipes.length} recipe${S.recipes.length===1?'':'s'}`, `<button class="circle-btn" data-act="recipe-new" aria-label="Add recipe">${ic('plus')}</button>`)}
+  ${banner()}
+  ${S.recipes.length ? `<input class="field" id="recipe-search" placeholder="Search by name or ingredient" value="${esc(ui.rq)}" aria-label="Search recipes">
+  ${tags.length > 2 ? `<div class="chips">${tags.map(t => `<button class="chip" data-act="rtag" data-v="${esc(t)}" aria-pressed="${ui.rtag===t}">${esc(t)}</button>`).join('')}</div>` : ''}
+  ${list.length ? `<div class="rgrid">${list.map(r => `<button class="rcard c-${r.color || hashColor(r.title)}" data-act="recipe-open" data-id="${r.id}">
+      <span class="mono">${esc(((r.title||'').trim()[0]||'?').toUpperCase())}</span>
+      <span><span class="t">${esc(r.title)}</span><span class="s" style="display:block">${esc([r.time ? r.time + ' min' : '', r.serves ? 'serves ' + r.serves : '', r.tag].filter(Boolean).join(' · '))}</span></span></button>`).join('')}</div>`
+    : `<div class="empty"><b>No matches</b><span>Try another word or tag.</span></div>`}`
+  : `<div class="empty"><b>Your recipe book is empty</b><span>Save the dishes you both like. Each recipe can send its ingredients to the shopping list in one tap.</span><button class="btn" data-act="recipe-new">Add a recipe</button></div>`}`;
+}
+
+function furnImg(f, cls='') {
+  if (f.image) return `<img src="/_blob/${esc(f.image)}" alt="${esc(f.name)}" loading="lazy">`;
+  return `<div class="swatch ${cls}" style="background:${f.hex ? esc(f.hex) : 'var(--' + esc(f.color || hashColor(f.name)) + ')'};--ar:${[1,.8,1.25][(f.name||'').length % 3]}"></div>`;
+}
+function vNest() {
+  const rooms = ['All', ...ROOMS.filter(r => S.furniture.some(f => f.room === r))];
+  if (!rooms.includes(ui.room)) ui.room = 'All';
+  const inRoom = S.furniture.filter(f => ui.room === 'All' || f.room === ui.room);
+  const t = totals();
+  const board = inRoom.slice().sort((a,b) => b.createdAt - a.createdAt);
+  const toBuy = inRoom.filter(f => f.status !== 'idea').sort((a,b) => (a.status === 'bought') - (b.status === 'bought') || b.createdAt - a.createdAt);
+  const over = t.planned > t.homeLeft;
+  return `${header('Home & furniture', `${money0(t.homeLeft)} left in the home fund`, `<button class="circle-btn" data-act="furn-new" aria-label="Add a piece">${ic('plus')}</button>`)}
+  ${banner()}
+  <div class="seg" role="group" aria-label="View"><button data-act="nestview" data-v="board" aria-pressed="${ui.nestView==='board'}">Moodboard</button><button data-act="nestview" data-v="buy" aria-pressed="${ui.nestView==='buy'}">Purchase list</button></div>
+  ${rooms.length > 2 ? `<div class="chips">${rooms.map(r => `<button class="chip" data-act="room" data-v="${esc(r)}" aria-pressed="${ui.room===r}">${esc(r)}</button>`).join('')}</div>` : ''}
+  ${!S.furniture.length ? `<div class="empty"><b>Start the moodboard</b><span>Add photos of pieces you love, or a colour swatch for a paint or fabric. Heart each other’s finds, then move the keepers to the purchase list.</span><button class="btn" data-act="furn-new">Add the first piece</button></div>`
+  : ui.nestView === 'board' ? `<div class="mood">${board.map(f => {
+      const likes = f.likes || []; const on = me && likes.includes(me);
+      return `<div class="mtile" style="position:relative"><button data-act="furn-edit" data-id="${f.id}" style="display:block;width:100%;text-align:left">${furnImg(f)}
+        <span class="cap" style="display:block"><b>${esc(f.name)}</b><small>${esc([f.room, f.price ? money0(f.price) : '', f.status !== 'idea' ? STATUS[f.status][0] : ''].filter(Boolean).join(' · '))}</small></span></button>
+        <button class="heart ${on ? 'on' : ''}" data-act="like" data-id="${f.id}" aria-pressed="${!!on}" aria-label="Like ${esc(f.name)}">${ic('heart')}${likes.length >= 2 ? 'Both' : likes.length || ''}</button></div>`; }).join('')}</div>`
+  : `<section class="outline" style="display:flex;flex-direction:column;gap:4px">
+      <div class="env"><div class="r"><b class="num">${money0(t.planned)} planned</b><span class="num ${over ? 'warn' : 'muted'}">${over ? money0(t.planned - t.homeLeft) + ' over the fund' : money0(t.homeLeft - t.planned) + ' spare after'}</span></div>
+      <div class="bar"><i class="${over ? 'over' : ''}" style="width:${Math.min(100, (t.home + t.planned) / t.L.home * 100)}%"></i></div>
+      <small class="muted num">${money0(t.home)} spent of ${money0(t.L.home)} home fund</small></div></section>
+    ${toBuy.length ? `<div class="cards">${toBuy.map(f => `<div class="${f.status === 'bought' ? 'ccard c-mint' : 'outline prow'}" style="${f.status === 'bought' ? '' : 'display:flex'}">
+      <button class="thumb" data-act="furn-edit" data-id="${f.id}" aria-label="Edit ${esc(f.name)}">${f.image ? `<img src="/_blob/${esc(f.image)}" alt="">` : `<span style="display:block;width:100%;height:100%;background:${f.hex ? esc(f.hex) : 'var(--' + esc(f.color || 'sand') + ')'}"></span>`}</button>
+      <button class="main" data-act="furn-edit" data-id="${f.id}" style="text-align:left;flex:1;min-width:0"><span class="t" style="font-family:var(--display);font-weight:600;font-size:16px;display:block;overflow-wrap:anywhere">${esc(f.name)}</span><span class="${f.status === 'bought' ? 's' : 'muted'}" style="font-size:12.5px">${esc([f.room, f.store].filter(Boolean).join(' · '))}</span></button>
+      <span style="display:flex;flex-direction:column;align-items:flex-end;gap:6px"><b class="num" style="font-family:var(--display)">${money(f.price)}</b>
+      ${f.status === 'bought' ? `<button class="mini-btn" style="border-color:rgba(20,20,20,.35)" data-act="unbuy" data-id="${f.id}">Bought ✓</button>` : `<button class="mini-btn" data-act="buy" data-id="${f.id}">Mark bought</button>`}</span></div>`).join('')}</div>`
+    : `<div class="empty"><b>Nothing on the purchase list</b><span>Open a moodboard piece and set it to “To buy” when you’ve both agreed on it.</span></div>`}`}`;
+}
+
+function vBudget() {
+  const t = totals(), L = t.L, st = settle();
+  const days = [];
+  if (ui.range === 'week') {
+    for (let i = 6; i >= 0; i--) { const d = new Date(); d.setDate(d.getDate() - i); days.push({key: iso(d), label: d.toLocaleDateString('en-US',{weekday:'short'}), match: s => s.date === iso(d)}); }
+  } else {
+    const now = new Date(), y = now.getFullYear(), m = now.getMonth(), last = new Date(y, m+1, 0).getDate();
+    for (let w = 0; w * 7 < last; w++) { const a = w*7+1, b = Math.min(last, a+6); days.push({label: `${a}–${b}`, match: s => { const d = parseD(s.date); return d.getFullYear()===y && d.getMonth()===m && d.getDate()>=a && d.getDate()<=b; }}); }
+  }
+  const cols = days.map(d => { const g = S.spend.filter(s => s.section !== 'home' && d.match(s)).reduce((a,s)=>a+num(s.amount),0); const h = S.spend.filter(s => s.section === 'home' && d.match(s)).reduce((a,s)=>a+num(s.amount),0); return {...d, g, h, v: g+h}; });
+  const max = Math.max(...cols.map(c => c.v));
+  const top = max > 0 ? niceMax(max) : 100;
+  const hist = [...S.spend].sort((a,b) => (b.date||'').localeCompare(a.date||'') || b.createdAt - a.createdAt);
+  const pct = (v,l) => Math.min(100, Math.max(0, v/l*100));
+  const ids = st.ids.length ? st.ids : [me].filter(Boolean);
+  return `${header('Insights', 'Shared spending across groceries and home', `<button class="pill-btn" data-act="range">${ui.range === 'week' ? 'Week' : 'Month'} ▾</button>`)}
+  ${banner()}
+  <section class="chart" aria-label="Spending per ${ui.range === 'week' ? 'day' : 'week'}">
+    <div class="bars">${cols.map(c => `<div class="bcol ${c.v && c.v === max ? 'max' : ''}"><span class="v">${c.v ? money0(c.v) : ''}</span>
+      <span class="stack" style="height:${c.v / top * 85}%">${c.h ? `<span class="h" style="flex:${c.h}"></span>` : ''}${c.g ? `<span class="g" style="flex:${c.g}"></span>` : ''}</span></div>`).join('')}</div>
+    <div class="blabels">${cols.map(c => `<span>${esc(c.label)}</span>`).join('')}</div>
+    <div class="legend"><span><i style="background:var(--ink)"></i>Groceries</span><span><i style="background:var(--orange)"></i>Home</span></div>
+  </section>
+
+  <section class="outline" style="display:flex;flex-direction:column;gap:16px">
+    <div class="env"><div class="r"><b>Groceries · ${monthName()}</b><span class="num ${t.grocLeft < 0 ? 'warn' : 'muted'}">${money0(t.groc)} / ${money0(L.groceries)}</span></div><div class="bar"><i class="${t.grocLeft<0?'over':''}" style="width:${pct(t.groc, L.groceries)}%"></i></div></div>
+    <div class="env"><div class="r"><b>Home fund</b><span class="num ${t.homeLeft < 0 ? 'warn' : 'muted'}">${money0(t.home)} / ${money0(L.home)}</span></div><div class="bar"><i class="${t.homeLeft<0?'over':''}" style="width:${pct(t.home, L.home)}%"></i></div><small class="muted num">${money0(t.planned)} more planned on the purchase list</small></div>
+    <button class="btn ghost" data-act="limits">Edit budgets</button>
+  </section>
+
+  <section class="outline settle">
+    <div class="avs">${ids.map(i => avatar(i)).join('')}</div>
+    <div class="main">${st.owes ? `<b>${esc(firstName(st.owes.from))} ${st.owes.from===me?'owe':'owes'} ${esc(firstName(st.owes.to)==='You'?'you':firstName(st.owes.to))} ${money(st.owes.amount)}</b>` : `<b>You’re even</b>`}
+      <div class="muted num" style="font-size:13px">${ids.map(i => `${esc(firstName(i))} paid ${money0(st.by[i] || 0)}`).join(' · ') || 'Nothing paid yet'} in ${monthName()}</div></div>
+  </section>
+
+  <section style="display:flex;flex-direction:column;gap:12px">
+    <div class="sec-head"><h2>History</h2><button class="pill-btn" data-act="spend-new">+ Expense</button></div>
+    ${hist.length ? `<div class="cards">${hist.map(spendCard).join('')}</div>` : `<div class="empty"><b>No expenses yet</b><span>Everything you check out or mark as bought lands here.</span></div>`}
+  </section>`;
+}
+function niceMax(v) { const p = Math.pow(10, Math.floor(Math.log10(v))); for (const m of [1,1.5,2,2.5,3,4,5,6,8,10]) if (m*p >= v) return m*p; return 10*p; }
+
+/* ---------- render ---------- */
+const view = document.getElementById('view'), nav = document.getElementById('nav');
+function render() {
+  const a = document.activeElement; let keep = null;
+  if (a && a.id && view.contains(a)) keep = {id: a.id, v: a.value, s: a.selectionStart, e: a.selectionEnd};
+  const y = window.scrollY;
+  view.innerHTML = mode === 'loading' ? `${header(TABS.find(t=>t[0]===ui.tab)[1], 'Loading your shared lists…')}`
+    : ({home: vHome, list: vList, recipes: vRecipes, nest: vNest, budget: vBudget})[ui.tab]();
+  nav.innerHTML = TABS.map(([k, label]) => `<button data-go="${k}" aria-label="${label}" ${ui.tab===k ? 'aria-current="page"' : ''}>${ic(k)}</button>`).join('');
+  if (keep) { const el = document.getElementById(keep.id); if (el) { el.value = keep.v; el.focus(); try { el.setSelectionRange(keep.s, keep.e); } catch {} } }
+  window.scrollTo(0, y);
+}
+function go(tab) { if (ui.tab === tab) return; ui.tab = tab; try { history.replaceState(null, '', '#' + tab); } catch {} render(); window.scrollTo(0,0); }
+window.addEventListener('hashchange', () => { const h = location.hash.slice(1); if (TABS.some(t=>t[0]===h)) go(h); });
+
+let toastT;
+function toast(msg) { const t = document.getElementById('toast'); t.textContent = msg; t.hidden = false; clearTimeout(toastT); toastT = setTimeout(() => t.hidden = true, 2600); }
+
+/* ---------- sheets ---------- */
+const root = document.getElementById('sheet-root');
+let sheetCtx = null;
+function openSheet(title, body, ctx = {}) {
+  sheetCtx = ctx;
+  root.innerHTML = `<div class="scrim" data-act="close-scrim"><div class="sheet" role="dialog" aria-modal="true" aria-label="${esc(title)}">
+    <div class="grab"></div><div class="sheet-head"><h2>${esc(title)}</h2><button class="circle-btn" data-act="close" aria-label="Close">${ic('x')}</button></div>${body}</div></div>`;
+  const f = root.querySelector('input:not([type=hidden]):not([type=file]),textarea'); if (f && !ctx.noFocus) setTimeout(() => f.focus(), 60);
+}
+function closeSheet() { root.innerHTML = ''; sheetCtx = null; }
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && root.innerHTML) closeSheet(); });
+const opt = (v, cur, label) => `<option value="${esc(v)}" ${v === cur ? 'selected' : ''}>${esc(label ?? v)}</option>`;
+const delBtn = kind => `<button type="button" class="btn danger" data-act="confirm-del" data-kind="${kind}">Delete</button>`;
+
+function shopSheet(x) {
+  openSheet('Edit item', `<form class="form" data-form="shop-edit" data-id="${x.id}">
+    <label>Item<input class="field" id="se-name" name="name" value="${esc(x.name)}" required></label>
+    <div class="grid2"><label>Quantity<input class="field" id="se-qty" name="qty" value="${esc(x.qty || '')}" placeholder="e.g. 2, 500 g"></label>
+    <label>Est. price<input class="field" id="se-price" name="price" inputmode="decimal" value="${x.price ? esc(x.price) : ''}" placeholder="$"></label></div>
+    <label>Aisle<select class="field" id="se-aisle" name="aisle">${AISLES.map(a => opt(a[0], x.aisle || 'Other')).join('')}</select></label>
+    <div class="muted" style="font-size:13px">Added by ${esc(firstName(x.by))}${x.recipe ? ' for ' + esc(x.recipe) : ''}</div>
+    <div class="grid2">${delBtn('shop')}<button class="btn" type="submit">Save</button></div></form>`, {col:'shop', id:x.id});
+}
+function checkoutSheet() {
+  const done = S.shop.filter(x => x.done), est = done.reduce((a,x) => a + num(x.price), 0);
+  openSheet('Check out', `<form class="form" data-form="checkout">
+    <p class="muted" style="margin:0">${done.length} item${done.length===1?'':'s'} in the basket. Enter what you actually paid. It’s added to the groceries budget and the items leave the list.</p>
+    <label>Total paid<input class="field" id="co-total" name="total" inputmode="decimal" required value="${est ? est.toFixed(2) : ''}" placeholder="$0.00"></label>
+    <div class="grid2"><label>Store<input class="field" id="co-store" name="store" placeholder="e.g. Trader Joe’s"></label>
+    <label>Date<input class="field" id="co-date" name="date" type="date" value="${today()}"></label></div>
+    ${paidBySelect('co-by', me)}
+    <button class="btn full" type="submit">Log ${done.length} item${done.length===1?'':'s'} as bought</button></form>`);
+}
+function paidBySelect(id, cur) {
+  const p = partnerId();
+  if (!p) return `<input type="hidden" name="by" value="${esc(me || 'me')}">`;
+  return `<label>Paid by<select class="field" id="${id}" name="by">${opt(me, cur, 'You')}${opt(p, cur, firstName(p))}</select></label>`;
+}
+function spendSheet(s) {
+  s = s || {section: ui.tab === 'nest' ? 'home' : 'groceries', date: today(), by: me};
+  openSheet(s.id ? 'Edit expense' : 'Log an expense', `<form class="form" data-form="spend" ${s.id ? `data-id="${s.id}"` : ''}>
+    <label>What for<input class="field" id="sp-label" name="label" value="${esc(s.label || '')}" required placeholder="e.g. Farmers market"></label>
+    <div class="grid2"><label>Amount<input class="field" id="sp-amount" name="amount" inputmode="decimal" required value="${s.amount ? esc(s.amount) : ''}" placeholder="$0.00"></label>
+    <label>Date<input class="field" id="sp-date" name="date" type="date" value="${esc(s.date || today())}"></label></div>
+    <label>Budget<select class="field" id="sp-section" name="section">${opt('groceries', s.section, 'Groceries')}${opt('home', s.section, 'Home fund')}</select></label>
+    ${paidBySelect('sp-by', s.by === 'me' ? me : s.by)}
+    ${s.furnitureId ? `<div class="muted" style="font-size:13px">Linked to a furniture purchase. Deleting it moves the piece back to the purchase list.</div>` : ''}
+    <div class="${s.id ? 'grid2' : ''}">${s.id ? delBtn('spend') : ''}<button class="btn ${s.id ? '' : 'full'}" type="submit">${s.id ? 'Save' : 'Add expense'}</button></div></form>`, {col:'spend', id:s.id});
+}
+function limitsSheet() {
+  const L = limits();
+  openSheet('Budgets', `<form class="form" data-form="limits">
+    <label>Groceries per month<input class="field" id="bl-groc" name="groceries" inputmode="decimal" value="${L.groceries}"></label>
+    <label>Home & furniture fund (total)<input class="field" id="bl-home" name="home" inputmode="decimal" value="${L.home}"></label>
+    <p class="muted" style="margin:0;font-size:13px">Groceries reset on the 1st of each month. The home fund is one pot that furniture purchases draw down.</p>
+    <button class="btn full" type="submit">Save budgets</button></form>`);
+}
+function recipeOpen(r) {
+  const sel = new Set((r.ingredients || []).map((_, i) => i));
+  const draw = () => {
+    openSheet(r.title, `<div class="muted">${esc([r.time ? r.time + ' min' : '', r.serves ? 'Serves ' + r.serves : '', r.tag, 'Added by ' + firstName(r.by)].filter(Boolean).join(' · '))}</div>
+      ${(r.ingredients||[]).length ? `<section><h3 style="font-size:17px;margin-bottom:4px">Ingredients</h3>
+        ${(r.ingredients||[]).map((g, i) => `<button class="ing" data-act="ing" data-i="${i}" aria-pressed="${sel.has(i)}"><span class="tick">${ic('check')}</span><span>${esc(g)}</span></button>`).join('')}
+        <button class="btn full" data-act="ing-add" style="margin-top:10px" ${sel.size ? '' : 'disabled'}>Add ${sel.size} to shopping list</button></section>` : ''}
+      ${(r.steps||[]).length ? `<section><h3 style="font-size:17px;margin-bottom:10px">Method</h3><ol class="steps">${r.steps.map(s => `<li>${esc(s)}</li>`).join('')}</ol></section>` : ''}
+      ${r.notes ? `<p class="muted" style="margin:0;white-space:pre-wrap">${esc(r.notes)}</p>` : ''}
+      <div class="grid2">${delBtn('recipes')}<button class="btn ghost" data-act="recipe-edit">Edit</button></div>`, {col:'recipes', id:r.id, sel, draw, recipe:r, noFocus:true});
+  };
+  draw();
+}
+function recipeSheet(r) {
+  r = r || {};
+  openSheet(r.id ? 'Edit recipe' : 'New recipe', `<form class="form" data-form="recipe" ${r.id ? `data-id="${r.id}"` : ''}>
+    <label>Name<input class="field" id="rf-title" name="title" required value="${esc(r.title || '')}" placeholder="e.g. Sunday shakshuka"></label>
+    <div class="grid2"><label>Minutes<input class="field" id="rf-time" name="time" inputmode="numeric" value="${esc(r.time || '')}"></label><label>Serves<input class="field" id="rf-serves" name="serves" inputmode="numeric" value="${esc(r.serves || '')}"></label></div>
+    <label>Tag<input class="field" id="rf-tag" name="tag" value="${esc(r.tag || '')}" placeholder="Weeknight, Brunch, Date night…" list="rf-tags"><datalist id="rf-tags">${[...new Set(S.recipes.map(x => x.tag).filter(Boolean))].map(t => `<option value="${esc(t)}">`).join('')}</datalist></label>
+    <label>Ingredients, one per line<textarea class="field" id="rf-ing" name="ingredients" placeholder="2 tbsp olive oil&#10;1 onion&#10;6 eggs">${esc((r.ingredients||[]).join('\n'))}</textarea></label>
+    <label>Method, one step per line<textarea class="field" id="rf-steps" name="steps">${esc((r.steps||[]).join('\n'))}</textarea></label>
+    <label>Notes<input class="field" id="rf-notes" name="notes" value="${esc(r.notes || '')}" placeholder="Where it’s from, tweaks you like"></label>
+    <label>Card colour<span class="swatches">${COLORS.map(c => `<button type="button" class="sw c-${c}" data-act="pick-color" data-v="${c}" aria-label="${c}" aria-pressed="${(r.color || hashColor(r.title || 'x')) === c}"></button>`).join('')}</span><input type="hidden" name="color" id="rf-color" value="${esc(r.color || '')}"></label>
+    <button class="btn full" type="submit">${r.id ? 'Save recipe' : 'Add to recipe book'}</button></form>`, {col:'recipes', id:r.id});
+}
+function furnSheet(f) {
+  f = f || {status: ui.nestView === 'buy' ? 'planned' : 'idea', room: ui.room !== 'All' ? ui.room : ''};
+  const canUpload = !!assets;
+  openSheet(f.id ? 'Edit piece' : 'Add a piece', `<form class="form" data-form="furn" ${f.id ? `data-id="${f.id}"` : ''}>
+    ${f.image ? `<div style="border-radius:16px;overflow:hidden;max-height:260px"><img src="/_blob/${esc(f.image)}" alt="" style="width:100%;object-fit:cover;display:block"></div>` : ''}
+    ${canUpload ? `<label>Photo<input class="field" id="ff-file" name="file" type="file" accept="image/*"></label>` : ''}
+    <label>Name<input class="field" id="ff-name" name="name" required value="${esc(f.name || '')}" placeholder="e.g. Oak dining table"></label>
+    <div class="grid2"><label>Room<select class="field" id="ff-room" name="room">${opt('', f.room, 'Choose…')}${ROOMS.map(r => opt(r, f.room)).join('')}</select></label>
+    <label>Price<input class="field" id="ff-price" name="price" inputmode="decimal" value="${f.price ? esc(f.price) : ''}" placeholder="$"></label></div>
+    <div class="grid2"><label>Store<input class="field" id="ff-store" name="store" value="${esc(f.store || '')}"></label>
+    <label>Link<input class="field" id="ff-link" name="link" type="url" value="${esc(f.link || '')}" placeholder="https://"></label></div>
+    ${f.link && /^https?:\/\//.test(f.link) ? `<a href="${esc(f.link)}" target="_blank" rel="noopener" style="color:var(--ink);font-weight:600">Open product page ↗</a>` : ''}
+    <label>Status<span class="seg" role="group">${Object.entries(STATUS).map(([k,[l]]) => `<button type="button" data-act="pick-status" data-v="${k}" aria-pressed="${f.status===k}">${l}</button>`).join('')}</span><input type="hidden" name="status" id="ff-status" value="${esc(f.status)}"></label>
+    ${f.image ? '' : `<label>Swatch colour (paint, fabric, finish)<input class="field" id="ff-hex" name="hex" type="color" value="${esc(f.hex || '#cdb78c')}" style="height:48px;padding:6px"></label>`}
+    <label>Notes<input class="field" id="ff-notes" name="notes" value="${esc(f.notes || '')}" placeholder="Dimensions, colourway…"></label>
+    <div class="${f.id ? 'grid2' : ''}">${f.id ? delBtn('furniture') : ''}<button class="btn ${f.id ? '' : 'full'}" type="submit">${f.id ? 'Save' : 'Add to moodboard'}</button></div></form>`, {col:'furniture', id:f.id, item:f});
+}
+function quickSheet() {
+  openSheet('Add to…', `<div class="cards">
+    <button class="ccard c-mint" data-act="q" data-v="list"><span class="ico">${ic('list')}</span><span class="main"><span class="t">Shopping list</span><br><span class="s">Something we need from the store</span></span></button>
+    <button class="ccard c-yellow" data-act="q" data-v="recipe"><span class="ico">${ic('recipes')}</span><span class="main"><span class="t">Recipe book</span><br><span class="s">A dish worth keeping</span></span></button>
+    <button class="ccard c-blue" data-act="q" data-v="furn"><span class="ico">${ic('nest')}</span><span class="main"><span class="t">Moodboard</span><br><span class="s">A piece for the home</span></span></button>
+    <button class="ccard c-orange" data-act="q" data-v="spend"><span class="ico">${ic('budget')}</span><span class="main"><span class="t">Expense</span><br><span class="s">Log something we paid for</span></span></button></div>`, {noFocus:true});
+}
+
+/* ---------- actions ---------- */
+const find = (col, id) => S[col].find(x => x.id === id);
+async function markBought(f) {
+  const sid = await add('spend', {label: f.name, amount: num(f.price), section:'home', date: today(), furnitureId: f.id});
+  if (sid !== null) { await upd('furniture', f.id, {status:'bought', spendId: sid}); toast(`${money0(f.price)} taken from the home fund`); }
+}
+async function unbuy(f) {
+  const linked = S.spend.filter(s => s.furnitureId === f.id);
+  for (const s of linked) await del('spend', s.id);
+  await upd('furniture', f.id, {status:'planned', spendId: null});
+}
+document.addEventListener('click', async e => {
+  const g = e.target.closest('[data-go]'); if (g) { closeSheet(); go(g.dataset.go); return; }
+  const b = e.target.closest('[data-act]'); if (!b) return;
+  const act = b.dataset.act, id = b.dataset.id;
+  if (act === 'close-scrim' && e.target !== b) return;
+  switch (act) {
+    case 'close': case 'close-scrim': closeSheet(); break;
+    case 'quick': quickSheet(); break;
+    case 'q': closeSheet(); ({list: () => { go('list'); setTimeout(() => document.getElementById('shop-quick-name')?.focus(), 50); }, recipe: () => recipeSheet(), furn: () => furnSheet(), spend: () => spendSheet()})[b.dataset.v](); break;
+    case 'shop-toggle': { const x = find('shop', id); if (x) upd('shop', id, {done: !x.done}); break; }
+    case 'shop-edit': { const x = find('shop', id); if (x) shopSheet(x); break; }
+    case 'checkout': checkoutSheet(); break;
+    case 'spend-new': spendSheet(); break;
+    case 'spend-edit': { const s = find('spend', id); if (s) spendSheet(s); break; }
+    case 'limits': limitsSheet(); break;
+    case 'range': ui.range = ui.range === 'week' ? 'month' : 'week'; render(); break;
+    case 'rtag': ui.rtag = b.dataset.v; render(); break;
+    case 'recipe-new': recipeSheet(); break;
+    case 'recipe-open': { const r = find('recipes', id); if (r) recipeOpen(r); break; }
+    case 'recipe-edit': recipeSheet(sheetCtx.recipe); break;
+    case 'ing': { const i = +b.dataset.i, sel = sheetCtx.sel; sel.has(i) ? sel.delete(i) : sel.add(i); const y = root.querySelector('.sheet').scrollTop; sheetCtx.draw(); root.querySelector('.sheet').scrollTop = y; break; }
+    case 'ing-add': {
+      const r = sheetCtx.recipe, picked = (r.ingredients||[]).filter((_, i) => sheetCtx.sel.has(i));
+      closeSheet();
+      for (const line of picked) { const {qty, name} = parseIng(line); await add('shop', {name, qty, aisle: guessAisle(name), done:false, recipe: r.title}); }
+      toast(`${picked.length} added to the shopping list`); break;
+    }
+    case 'pick-color': { root.querySelectorAll('.sw').forEach(s => s.setAttribute('aria-pressed', s === b)); document.getElementById('rf-color').value = b.dataset.v; break; }
+    case 'pick-status': { b.parentElement.querySelectorAll('button').forEach(s => s.setAttribute('aria-pressed', s === b)); document.getElementById('ff-status').value = b.dataset.v; break; }
+    case 'nestview': ui.nestView = b.dataset.v; render(); break;
+    case 'room': ui.room = b.dataset.v; render(); break;
+    case 'furn-new': furnSheet(); break;
+    case 'furn-edit': { const f = find('furniture', id); if (f) furnSheet(f); break; }
+    case 'like': { const f = find('furniture', id); if (!f || !me) { if (!me) toast('Sign in to heart pieces'); break; } const l = new Set(f.likes || []); l.has(me) ? l.delete(me) : l.add(me); upd('furniture', id, {likes: [...l]}); break; }
+    case 'buy': { const f = find('furniture', id); if (f) { if (!num(f.price)) { furnSheet(f); toast('Add a price first'); } else markBought(f); } break; }
+    case 'unbuy': { const f = find('furniture', id); if (f) unbuy(f); break; }
+    case 'confirm-del': {
+      if (b.dataset.armed) {
+        const {col, id: did} = sheetCtx; closeSheet();
+        if (col === 'spend') { const s = find('spend', did); if (s?.furnitureId && find('furniture', s.furnitureId)) await upd('furniture', s.furnitureId, {status:'planned', spendId:null}); }
+        if (col === 'furniture') { const f = find('furniture', did); if (f?.status === 'bought') toast('Removed. Its expense stays in the history.'); }
+        await del(col, did);
+      } else { b.dataset.armed = '1'; b.textContent = 'Tap again to delete'; }
+      break;
+    }
+  }
+});
+document.addEventListener('input', e => {
+  if (e.target.id === 'recipe-search') { ui.rq = e.target.value; render(); }
+});
+document.addEventListener('submit', async e => {
+  const f = e.target.closest('form[data-form]'); if (!f) return;
+  e.preventDefault();
+  const fd = Object.fromEntries(new FormData(f).entries()), kind = f.dataset.form, id = f.dataset.id;
+  switch (kind) {
+    case 'shop-quick': {
+      const raw = (fd.name || '').trim(); if (!raw) return;
+      const {qty, name} = parseIng(raw);
+      document.getElementById('shop-quick-name').value = '';
+      await add('shop', {name, qty, aisle: guessAisle(name), done:false});
+      break;
+    }
+    case 'shop-edit': closeSheet(); await upd('shop', id, {name: fd.name.trim(), qty: fd.qty.trim(), price: fd.price ? num(fd.price) : null, aisle: fd.aisle}); break;
+    case 'checkout': {
+      const done = S.shop.filter(x => x.done); closeSheet();
+      const sid = await add('spend', {label: fd.store.trim() || 'Grocery run', amount: num(fd.total), section:'groceries', date: fd.date || today(), items: done.length, by: fd.by || me || 'me'});
+      if (sid === null) return;
+      for (const x of done) await del('shop', x.id);
+      toast(`${money(num(fd.total))} logged to groceries`); break;
+    }
+    case 'spend': {
+      const data = {label: fd.label.trim(), amount: num(fd.amount), date: fd.date || today(), section: fd.section};
+      closeSheet();
+      if (id) await upd('spend', id, {...data, by: fd.by || me}); else await add('spend', {...data, by: fd.by || me || 'me'});
+      break;
+    }
+    case 'limits': closeSheet(); await saveSettings({groceries: num(fd.groceries) || DEFAULTS.groceries, home: num(fd.home) || DEFAULTS.home}); toast('Budgets saved'); break;
+    case 'recipe': {
+      const lines = s => String(s || '').split('\n').map(x => x.replace(/^\s*(\d+[.)]|[-•*])\s*/, '').trim()).filter(Boolean);
+      const data = {title: fd.title.trim(), time: fd.time.trim(), serves: fd.serves.trim(), tag: fd.tag.trim(), ingredients: lines(fd.ingredients), steps: lines(fd.steps), notes: fd.notes.trim(), color: fd.color || hashColor(fd.title)};
+      closeSheet();
+      if (id) await upd('recipes', id, data); else { await add('recipes', data); go('recipes'); }
+      break;
+    }
+    case 'furn': {
+      const file = f.querySelector('#ff-file')?.files?.[0];
+      const prev = sheetCtx.item || {};
+      const data = {name: fd.name.trim(), room: fd.room, price: fd.price ? num(fd.price) : null, store: fd.store.trim(), link: fd.link.trim(), status: fd.status || 'idea', notes: fd.notes.trim()};
+      if (fd.hex) data.hex = fd.hex;
+      const btn = f.querySelector('[type=submit]');
+      if (file && assets) {
+        btn.disabled = true; btn.textContent = 'Uploading photo…';
+        try { const r = await assets.upload(file); data.image = r.id; }
+        catch (err) { btn.disabled = false; btn.textContent = 'Save'; toast(err?.code === 'too_large' ? 'That photo is over 20 MB. Try a smaller one.' : 'The photo didn’t upload. Try again, or save without it.'); return; }
+      }
+      closeSheet();
+      if (id) {
+        await upd('furniture', id, data);
+        const now = find('furniture', id) || {...prev, ...data};
+        if (prev.status !== 'bought' && data.status === 'bought') { if (num(data.price)) await markBought({...now, ...data, id}); else toast('Add a price so it can come out of the home fund'); }
+        if (prev.status === 'bought' && data.status !== 'bought') { for (const s of S.spend.filter(s => s.furnitureId === id)) await del('spend', s.id); }
+      } else {
+        const nid = await add('furniture', {...data, likes: me ? [me] : [], color: hashColor(data.name)});
+        if (nid && data.status === 'bought' && num(data.price)) await markBought({...data, id: nid});
+      }
+      break;
+    }
+  }
+});
+
+/* ---------- boot ---------- */
+async function boot() {
+  render();
+  const use = n => (window.claude && typeof window.claude.use === 'function') ? window.claude.use(n).catch(() => null) : Promise.resolve(null);
+  const timer = setTimeout(() => { if (mode === 'loading') goLocal(); }, 10000);
+  const [d, u, a] = await Promise.all([use('db'), use('user'), use('assets')]);
+  userApi = u; assets = a;
+  if (u) { try { me = await u.id(); } catch {} }
+  if (!d) { clearTimeout(timer); goLocal(); return; }
+  db = d;
+  const got = new Set();
+  const ready = () => { if (got.size >= COLS.length + 1 && mode === 'loading') { mode = 'live'; clearTimeout(timer); } };
+  let rT; const soon = () => { clearTimeout(rT); rT = setTimeout(() => { render(); refreshPeople(); }, 30); };
+  const onErr = e => { if (e && (e.code === 'revoked' || e.code === 'not_granted' || e.code === 'capability_disabled')) { mode = 'loading'; db = null; goLocal(); } };
+  for (const c of COLS) db.collection(c).onSnapshot(snap => { S[c] = snap.docs.map(x => ({id: x.id, ...x.data()})); got.add(c); ready(); soon(); }, onErr);
+  db.doc('budget/settings').onSnapshot(snap => { S.settings = snap.exists ? {...snap.data()} : {}; got.add('settings'); ready(); soon(); }, onErr);
+  refreshPeople();
+}
+boot();
+})();
+</script>
