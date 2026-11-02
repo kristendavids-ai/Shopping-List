@@ -1,24 +1,27 @@
 <title>Our Nest</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <style>
-/* Layout: one phone column on warm greige; flat colour cards overlap like a wallet stack; Helvetica throughout, heavy titles and light figures */
+/* Layout: cream phone column; orange balance card with red circles; outlined tiles; colour cards overlap like a wallet and expand in place; black pill nav */
 :root{
-  --bg:#EFECE6; --tile:#E2DED5; --ink:#0F0F0F; --muted:#8B877E; --faint:#B3AFA6; --line:rgba(15,15,15,.12);
-  --solid:#0F0F0F; --on-solid:#F4F2ED; --sheet:#F4F2ED; --danger:#D21E16;
-  --on-card:#0F0F0F; --on-card-muted:rgba(15,15,15,.55); --card-line:rgba(15,15,15,.14);
-  --sage:#A8C4B6; --tan:#B4966C; --lemon:#ECE77E; --red:#E2231A; --silver:#C2C1BE; --orange:#FF6A14; --olive:#7A9264; --khaki:#C9AF7A;
+  --bg:#F3EAD0; --deep:#E8DDBD; --ink:#111111; --muted:#7A735F; --faint:#ADA58C; --line:rgba(17,17,17,.24); --line-soft:rgba(17,17,17,.1); --chip:rgba(17,17,17,.06);
+  --solid:#111111; --on-solid:#F3EAD0; --sheet:#F6EED8; --danger:#C2321C;
+  --nav-bg:#111111; --nav-fg:#F3EAD0; --nav-active:#56534B;
+  --on-card:#111111; --on-card-muted:rgba(17,17,17,.58); --card-line:rgba(17,17,17,.14); --card-solid:#111111; --card-on-solid:#F3EAD0;
+  --orange:#EB7A52; --red:#DE2B1E; --blue:#9DB7DE; --yellow:#F2D04B; --mint:#8DCDB5; --tan:#B99A70; --olive:#86A06C; --khaki:#CDB27C; --silver:#C6C2B6;
   --sans:"Helvetica Neue",Helvetica,Arial,"Liberation Sans",sans-serif;
-  --r:20px;
+  --r:22px;
 }
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
-  --bg:#141413; --tile:#23221F; --ink:#F1EFEA; --muted:#8F8B83; --faint:#5E5B55; --line:rgba(241,239,234,.12);
-  --solid:#F1EFEA; --on-solid:#141413; --sheet:#1C1B19; --danger:#FF6B5C;
-  --sage:#9DB9AB; --tan:#AA8C63; --lemon:#E2DD74; --red:#E0352C; --silver:#B7B6B2; --orange:#F7681A; --olive:#748C5F; --khaki:#C0A671;
+  --bg:#17150F; --deep:#221F17; --ink:#F3EAD0; --muted:#A29A82; --faint:#6A6453; --line:rgba(243,234,208,.22); --line-soft:rgba(243,234,208,.09); --chip:rgba(243,234,208,.07);
+  --solid:#F3EAD0; --on-solid:#17150F; --sheet:#1F1C15; --danger:#FF7B62;
+  --nav-bg:#2A271F; --nav-fg:#F3EAD0; --nav-active:#4C483D;
+  --orange:#E6744B; --red:#D9311F; --blue:#93AED6; --yellow:#E8C743; --mint:#82C3AB; --tan:#AE8F66; --olive:#7E9866; --khaki:#C3A872; --silver:#BBB7AB;
   color-scheme:dark}}
 :root[data-theme="dark"]{
-  --bg:#141413; --tile:#23221F; --ink:#F1EFEA; --muted:#8F8B83; --faint:#5E5B55; --line:rgba(241,239,234,.12);
-  --solid:#F1EFEA; --on-solid:#141413; --sheet:#1C1B19; --danger:#FF6B5C;
-  --sage:#9DB9AB; --tan:#AA8C63; --lemon:#E2DD74; --red:#E0352C; --silver:#B7B6B2; --orange:#F7681A; --olive:#748C5F; --khaki:#C0A671;
+  --bg:#17150F; --deep:#221F17; --ink:#F3EAD0; --muted:#A29A82; --faint:#6A6453; --line:rgba(243,234,208,.22); --line-soft:rgba(243,234,208,.09); --chip:rgba(243,234,208,.07);
+  --solid:#F3EAD0; --on-solid:#17150F; --sheet:#1F1C15; --danger:#FF7B62;
+  --nav-bg:#2A271F; --nav-fg:#F3EAD0; --nav-active:#4C483D;
+  --orange:#E6744B; --red:#D9311F; --blue:#93AED6; --yellow:#E8C743; --mint:#82C3AB; --tan:#AE8F66; --olive:#7E9866; --khaki:#C3A872; --silver:#BBB7AB;
   color-scheme:dark}
 *{box-sizing:border-box}
 html,body{background:var(--bg);color:var(--ink)}
@@ -26,164 +29,185 @@ body{font-family:var(--sans);font-size:15px;line-height:1.35;-webkit-font-smooth
 body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
 button,input,select,textarea{font:inherit;color:inherit}
 button{cursor:pointer;background:none;border:0;padding:0;text-align:inherit}
+a{color:inherit}
 :focus-visible{outline:2px solid var(--ink);outline-offset:2px}
 h1,h2,h3{margin:0;text-wrap:balance}
-.app{max-width:520px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:20px 128px;display:flex;flex-direction:column;gap:24px}
+.app{max-width:520px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:18px 124px;display:flex;flex-direction:column;gap:24px}
 .svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;flex:none}
-.svg.sm{width:13px;height:13px;stroke-width:2.2}
+.svg.sm{width:18px;height:18px}
 .muted{color:var(--muted)}
-.lbl{font-size:11px;color:var(--muted);letter-spacing:.01em}
+.lbl{font-size:11.5px;color:var(--muted)}
+.warn{color:var(--danger)}
 
-/* header */
-.top{display:flex;align-items:flex-start;gap:12px}
-.top h1{font-size:31px;font-weight:700;letter-spacing:-.03em;line-height:1.02;flex:1;min-width:0}
-.top .sub{font-size:13px;color:var(--muted);margin-top:6px;letter-spacing:0;font-weight:400;line-height:1.35}
-.icon-btn{width:38px;height:38px;display:grid;place-items:center;flex:none;border-radius:50%}
-.text-btn{font-size:13px;font-weight:500;color:var(--ink);display:inline-flex;align-items:center;gap:4px;white-space:nowrap;padding:6px 0}
-.text-btn .svg{width:16px;height:16px}
+/* headers: home uses the profile row, other pages the heavy multi-line title */
+.top{display:flex;align-items:center;gap:12px}
+.top .ttl{flex:1;min-width:0}
+.top h1{font-size:22px;font-weight:700;letter-spacing:-.02em;line-height:1.1}
+.top.page{align-items:flex-start}
+.top.page h1{font-size:31px;letter-spacing:-.035em;line-height:1.02}
+.top .sub{font-size:13px;color:var(--muted);margin-top:4px}
+.circle-btn{width:42px;height:42px;border-radius:50%;box-shadow:inset 0 0 0 1.5px var(--line);display:grid;place-items:center;flex:none}
+.pill-btn{box-shadow:inset 0 0 0 1.5px var(--line);border-radius:99px;padding:7px 14px;font-size:13px;font-weight:500;white-space:nowrap;display:inline-flex;align-items:center;gap:4px;flex:none}
+.pill-btn .svg{width:15px;height:15px}
+.avs{display:flex}
+.av{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;font-weight:700;font-size:15px;color:var(--on-card);overflow:hidden;flex:none;box-shadow:0 0 0 2px var(--bg)}
+.av img{width:100%;height:100%;object-fit:cover}
+.avs .av+.av{margin-left:-12px}
+.av.s{width:22px;height:22px;font-size:10px;box-shadow:0 0 0 1.5px rgba(255,255,255,.5)}
 
-/* home hero */
-.dots{height:116px;margin-inline:-16px;background:radial-gradient(circle,var(--red) 0 57px,transparent 58px) center/116px 116px repeat-x}
-.balance .lbl{display:block;margin-bottom:4px}
-.big{font-size:46px;font-weight:400;letter-spacing:-.045em;line-height:1;font-variant-numeric:tabular-nums}
-.big .c{color:var(--faint)}
+/* balance card */
+.hero{background:var(--orange);color:var(--on-card);border-radius:24px;padding:18px 20px 20px;position:relative;overflow:hidden;min-height:170px;display:flex;flex-direction:column;justify-content:space-between;gap:28px}
+.hero::after{content:"";position:absolute;right:-70px;top:-34px;width:228px;height:114px;background:radial-gradient(circle at 57px 57px,var(--red) 0 56px,transparent 57px),radial-gradient(circle at 171px 57px,var(--red) 0 56px,transparent 57px);pointer-events:none}
+.hero>*{position:relative;z-index:1}
+.hero .lbl{color:var(--on-card-muted);font-size:13px;color:var(--on-card)}
+.hero .foot{display:flex;justify-content:space-between;align-items:flex-end;gap:10px}
+.big{font-size:46px;font-weight:400;letter-spacing:-.045em;line-height:.95;font-variant-numeric:tabular-nums}
+.big .c{opacity:.45}
+.hero .when{font-size:14px;font-weight:500;white-space:nowrap}
 
-/* square tiles (as in the Uber / Netflix tiles) */
-.tiles{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;margin-inline:-16px;padding-inline:16px}
+/* outlined tiles */
+.sec{display:flex;flex-direction:column;gap:12px}
+.sec-head{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.sec-head h2{font-size:20px;font-weight:700;letter-spacing:-.02em}
+.tiles{display:flex;gap:10px;overflow-x:auto;scrollbar-width:none;margin-inline:-16px;padding:2px 16px}
 .tiles.grid{display:grid;grid-template-columns:1fr 1fr;overflow:visible;margin:0;padding:0}
-.sq{background:var(--tile);border-radius:14px;padding:12px;min-width:132px;min-height:132px;flex:none;display:flex;flex-direction:column;justify-content:space-between;gap:12px;color:var(--ink)}
-.tiles.grid .sq{min-width:0}
-.sq .lbl{margin-bottom:2px}
-.sq .amt{font-size:26px;letter-spacing:-.04em;line-height:1;font-weight:400;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
-.sq .amt,.sq .nm{display:block}
-.sq .nm{font-size:12.5px;font-weight:500;overflow-wrap:anywhere}
-.badge{width:28px;height:28px;border-radius:50%;background:var(--solid);color:var(--on-solid);display:grid;place-items:center;flex:none}
-.badge.light{background:var(--bg);color:var(--ink)}
-.meter{display:block;height:3px;background:var(--line);border-radius:3px;overflow:hidden;margin-top:6px}
-.meter i{display:block;height:100%;background:var(--ink)}
+.tile{box-shadow:inset 0 0 0 1.5px var(--line);border-radius:20px;padding:14px;min-width:164px;flex:none;display:flex;flex-direction:column;gap:14px;color:var(--ink)}
+.tiles.grid .tile{min-width:0}
+.tile .hd{display:flex;gap:10px;align-items:flex-start}
+.tile .amt{font-weight:700;font-size:16px;letter-spacing:-.01em;display:block;font-variant-numeric:tabular-nums}
+.tile .sm{font-size:12px;color:var(--muted);display:block}
+.tile .nm{font-weight:700;font-size:16px;letter-spacing:-.015em;overflow-wrap:anywhere}
+.sqi{width:42px;height:42px;border-radius:11px;background:var(--chip);display:grid;place-items:center;flex:none}
+.meter{display:block;height:4px;background:var(--line-soft);border-radius:4px;overflow:hidden}
+.meter i{display:block;height:100%;background:var(--ink);border-radius:4px}
 .meter i.over{background:var(--danger)}
 
-.sec-head{display:flex;align-items:baseline;justify-content:space-between;gap:12px}
-.sec-head h2{font-size:22px;font-weight:700;letter-spacing:-.025em}
-
-/* wallet stack */
+/* wallet stack of colour cards */
 .wallet{display:flex;flex-direction:column}
-.w{position:relative;border-radius:var(--r);padding:12px 16px 34px;margin-top:-20px;color:var(--on-card);display:block;width:100%;box-shadow:0 -1px 0 rgba(0,0,0,.05)}
+.w{position:relative;border-radius:var(--r);margin-top:-22px;padding-bottom:22px;color:var(--on-card);box-shadow:0 -1px 0 rgba(0,0,0,.04)}
 .w:first-child{margin-top:0}
-.w:last-child{padding-bottom:16px}
-.w .badge{width:22px;height:22px;background:var(--on-card);color:var(--sheet)}
-.w .cat{font-size:11px;color:var(--on-card-muted);margin-top:10px;display:block}
-.w .row{display:flex;justify-content:space-between;align-items:baseline;gap:12px}
-.w .name{font-size:19px;letter-spacing:-.02em;font-weight:500;line-height:1.15;overflow-wrap:anywhere;min-width:0}
-.w .val{font-size:19px;letter-spacing:-.02em;white-space:nowrap;font-variant-numeric:tabular-nums}
-.c-sage{background:var(--sage)}.c-tan{background:var(--tan)}.c-lemon{background:var(--lemon)}.c-red{background:var(--red)}.c-silver{background:var(--silver)}.c-orange{background:var(--orange)}.c-olive{background:var(--olive)}.c-khaki{background:var(--khaki)}
+.w:last-child{padding-bottom:0}
+.w-head{display:flex;gap:14px;align-items:center;padding:14px 16px;width:100%}
+.w .sqi{width:46px;height:46px;border-radius:12px;background:rgba(255,255,255,.4)}
+.w-main{flex:1;min-width:0;display:flex;flex-direction:column}
+.w .cat{font-size:11px;color:var(--on-card-muted)}
+.w .name{font-weight:700;font-size:17px;letter-spacing:-.015em;overflow-wrap:anywhere;line-height:1.2}
+.w .sub{font-size:12.5px;color:var(--on-card-muted);margin-top:1px}
+.w .amt{font-weight:700;font-size:17px;letter-spacing:-.015em;text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
+.w .amt small{display:block;font-weight:400;font-size:12px;color:var(--on-card-muted);letter-spacing:0}
+.w-more{padding:2px 16px 16px;display:flex;flex-direction:column}
+.kv{display:flex;align-items:center;gap:12px;min-height:44px}
+.kv .k{width:92px;flex:none;color:var(--on-card-muted);font-size:14px}
+.kv .v{flex:1;min-width:0;font-weight:600;overflow-wrap:anywhere}
+.opill{box-shadow:inset 0 0 0 1.5px rgba(17,17,17,.75);border-radius:99px;padding:7px 15px;font-size:13px;font-weight:500;white-space:nowrap;text-decoration:none;color:var(--on-card)}
+.bpill{background:var(--card-solid);color:var(--card-on-solid);border-radius:99px;padding:14px;width:100%;font-weight:600;text-align:center;margin-top:8px}
+.c-orange{background:var(--orange)}.c-red{background:var(--red)}.c-blue{background:var(--blue)}.c-yellow{background:var(--yellow)}.c-mint{background:var(--mint)}.c-tan{background:var(--tan)}.c-olive{background:var(--olive)}.c-khaki{background:var(--khaki)}.c-silver{background:var(--silver)}
 
-.empty{background:var(--tile);border-radius:var(--r);padding:22px 18px;display:flex;flex-direction:column;gap:8px;align-items:flex-start}
-.empty b{font-size:18px;letter-spacing:-.02em}
+.empty{box-shadow:inset 0 0 0 1.5px var(--line);border-radius:var(--r);padding:20px 18px;display:flex;flex-direction:column;gap:8px;align-items:flex-start}
+.empty b{font-size:17px;letter-spacing:-.015em}
 .empty span{color:var(--muted);max-width:44ch}
 .empty .btn{margin-top:6px}
-.banner{font-size:12px;color:var(--muted);background:var(--tile);border-radius:12px;padding:10px 12px}
+.banner{font-size:12.5px;color:var(--muted);background:var(--chip);border-radius:14px;padding:10px 12px}
 
 /* forms */
 .qa{display:flex;gap:8px}
-.field{background:var(--tile);border:0;border-radius:12px;padding:13px 14px;width:100%;min-width:0;outline:none;-webkit-appearance:none;appearance:none}
+.field{background:transparent;border:0;box-shadow:inset 0 0 0 1.5px var(--line);border-radius:14px;padding:13px 14px;width:100%;min-width:0;outline:none}
 .field:focus{box-shadow:inset 0 0 0 1.5px var(--ink)}
-select.field{background-image:linear-gradient(45deg,transparent 50%,var(--muted) 50%),linear-gradient(135deg,var(--muted) 50%,transparent 50%);background-position:calc(100% - 18px) 50%,calc(100% - 13px) 50%;background-size:5px 5px;background-repeat:no-repeat;padding-right:32px}
 textarea.field{resize:vertical;min-height:100px;line-height:1.5}
-.btn{background:var(--solid);color:var(--on-solid);border-radius:14px;padding:14px 20px;font-weight:500;white-space:nowrap;text-align:center}
-.btn.ghost{background:var(--tile);color:var(--ink)}
+.btn{background:var(--solid);color:var(--on-solid);border-radius:99px;padding:14px 20px;font-weight:600;white-space:nowrap;text-align:center}
+.btn.ghost{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 1.5px var(--line)}
 .btn.danger{background:transparent;color:var(--danger);box-shadow:inset 0 0 0 1.5px currentColor}
 .btn.full{width:100%}
-.btn.round{width:50px;height:50px;padding:0;border-radius:50%;display:grid;place-items:center;flex:none}
+.btn.round{width:50px;height:50px;padding:0;display:grid;place-items:center;flex:none}
 .btn:disabled{opacity:.35;cursor:default}
 .form{display:flex;flex-direction:column;gap:12px}
-.form label{display:flex;flex-direction:column;gap:6px;font-size:11px;color:var(--muted)}
+.form label{display:flex;flex-direction:column;gap:6px;font-size:12px;color:var(--muted)}
 .form label .field{font-size:15px;color:var(--ink)}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.chips{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;margin-inline:-16px;padding-inline:16px}
-.chip{background:var(--tile);border-radius:99px;padding:8px 14px;font-size:13px;white-space:nowrap;flex:none}
-.chip[aria-pressed="true"]{background:var(--solid);color:var(--on-solid)}
-.seg{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;background:var(--tile);border-radius:14px;padding:3px}
-.seg button{border-radius:11px;padding:10px;font-size:14px;font-weight:500;text-align:center}
-.seg button[aria-pressed="true"]{background:var(--bg);box-shadow:0 1px 2px rgba(0,0,0,.08)}
+.chips{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;margin-inline:-16px;padding:2px 16px}
+.chip{box-shadow:inset 0 0 0 1.5px var(--line);border-radius:99px;padding:7px 14px;font-size:13px;font-weight:500;white-space:nowrap;flex:none}
+.chip[aria-pressed="true"]{background:var(--solid);color:var(--on-solid);box-shadow:none}
+.seg{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;box-shadow:inset 0 0 0 1.5px var(--line);border-radius:99px;padding:4px}
+.seg button{border-radius:99px;padding:9px;font-size:14px;font-weight:600;text-align:center}
+.seg button[aria-pressed="true"]{background:var(--solid);color:var(--on-solid)}
 .swatches{display:flex;gap:8px;flex-wrap:wrap}
 .sw{width:32px;height:32px;border-radius:50%}
 .sw[aria-pressed="true"]{box-shadow:0 0 0 2px var(--sheet),0 0 0 4px var(--ink)}
 
-/* shopping items inside wallet cards */
-.items{margin-top:6px}
+/* shopping items inside aisle cards */
+.items{padding:0 16px 10px}
 .item{display:flex;align-items:center;gap:12px;padding:10px 0;border-top:1px solid var(--card-line)}
-.item:first-child{border-top:0}
-.tick{width:24px;height:24px;border-radius:50%;box-shadow:inset 0 0 0 1.6px currentColor;display:grid;place-items:center;flex:none}
-.tick .svg{width:14px;height:14px;stroke-width:2.6;opacity:0}
-.item .nm{flex:1;min-width:0;font-size:17px;letter-spacing:-.015em;overflow-wrap:anywhere}
-.item .nm small{display:block;font-size:11.5px;color:var(--on-card-muted);letter-spacing:0}
+.tick{width:26px;height:26px;border-radius:50%;box-shadow:inset 0 0 0 1.7px currentColor;display:grid;place-items:center;flex:none}
+.tick .svg{width:15px;height:15px;stroke-width:2.6;opacity:0}
+.item .nm{flex:1;min-width:0;font-size:16px;font-weight:500;overflow-wrap:anywhere}
+.item .nm small{display:block;font-size:12px;color:var(--on-card-muted);font-weight:400}
 .item .px{font-variant-numeric:tabular-nums;font-size:13px;color:var(--on-card-muted)}
 .w.basket{background:var(--solid);color:var(--on-solid)}
-.w.basket .cat,.w.basket .item .px,.w.basket .item .nm small{color:var(--faint)}
+.w.basket .sqi{background:rgba(127,127,127,.22)}
+.w.basket .cat,.w.basket .sub,.w.basket .item .px,.w.basket .item .nm small{color:var(--faint)}
 .w.basket .item{border-color:rgba(127,127,127,.25)}
 .w.basket .item .nm{text-decoration:line-through;text-decoration-thickness:1px;color:var(--faint)}
 .w.basket .tick{background:var(--on-solid);box-shadow:none}
 .w.basket .tick .svg{opacity:1;stroke:var(--solid)}
-.w.basket .btn{background:var(--on-solid);color:var(--solid);margin-top:10px}
-.av{width:22px;height:22px;border-radius:50%;display:grid;place-items:center;font-weight:700;font-size:10px;color:var(--on-card);overflow:hidden;flex:none;box-shadow:0 0 0 1.5px rgba(255,255,255,.5)}
-.av img{width:100%;height:100%;object-fit:cover}
-.avs{display:flex}.avs .av+.av{margin-left:-6px}
+.w.basket .btn{background:var(--on-solid);color:var(--solid);margin:4px 16px 16px;width:calc(100% - 32px)}
 
 /* recipe sheet */
-.ing{display:flex;gap:12px;align-items:center;padding:11px 0;border-top:1px solid var(--line);width:100%}
+.ing{display:flex;gap:12px;align-items:center;padding:11px 0;border-top:1px solid var(--line-soft);width:100%}
+.ing .tick{color:var(--ink)}
 .ing[aria-pressed="true"] .tick{background:var(--ink);box-shadow:none}
 .ing[aria-pressed="true"] .tick .svg{opacity:1;stroke:var(--bg)}
 .steps{margin:0;padding-left:22px;display:flex;flex-direction:column;gap:10px;line-height:1.5;max-width:65ch}
-.sheet h3{font-size:17px;letter-spacing:-.02em;margin-bottom:6px}
+.sheet h3{font-size:17px;letter-spacing:-.015em;margin-bottom:6px}
 
 /* moodboard */
-.mood{columns:2;column-gap:8px}
-.mtile{break-inside:avoid;margin-bottom:8px;border-radius:var(--r);overflow:hidden;color:var(--on-card);position:relative}
+.mood{columns:2;column-gap:10px}
+.mtile{break-inside:avoid;margin-bottom:10px;border-radius:var(--r);overflow:hidden;color:var(--on-card);position:relative}
 .mtile>button{display:block;width:100%}
 .mtile img{display:block;width:100%;height:auto}
-.mtile .swatch{aspect-ratio:var(--ar,1)}
+.mtile .swatch{display:block;aspect-ratio:var(--ar,1)}
 .mtile .cap{display:block;padding:10px 12px 12px}
-.mtile .cap .lbl{color:var(--on-card-muted);display:block;margin-bottom:2px}
-.mtile .cap b{font-size:15px;font-weight:500;letter-spacing:-.015em;display:block;overflow-wrap:anywhere}
-.heart{position:absolute;top:8px;right:8px;background:#F4F2ED;color:#0F0F0F;border-radius:99px;height:28px;padding:0 9px 0 7px;display:flex;align-items:center;gap:4px;font-size:11px;font-weight:700}
+.mtile .cap .cat{font-size:11px;color:var(--on-card-muted);display:block}
+.mtile .cap b{font-size:15px;letter-spacing:-.015em;display:block;overflow-wrap:anywhere}
+.mtile .cap .p{font-size:13px;font-weight:600}
+.heart{position:absolute;top:8px;right:8px;background:var(--card-on-solid);color:var(--card-solid);border-radius:99px;height:28px;padding:0 9px 0 7px;display:flex;align-items:center;gap:4px;font-size:11px;font-weight:700}
 .heart .svg{width:15px;height:15px}
-.heart.on .svg{fill:#E2231A;stroke:#E2231A}
-.mini{font-size:12px;font-weight:500;border-radius:99px;padding:6px 11px;background:rgba(255,255,255,.45);color:var(--on-card);white-space:nowrap}
-.w .acts{display:flex;justify-content:space-between;align-items:center;margin-top:10px;gap:8px}
-.warn{color:var(--danger)}
+.heart.on .svg{fill:var(--red);stroke:var(--red)}
 
-/* insights chart, hatched like the reference */
-.chart{border-radius:var(--r);padding:16px 14px 14px;color:var(--on-card)}
-.bars{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:8px;height:150px;align-items:end}
-.bcol{display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;gap:4px}
-.bcol .v{font-size:11px;font-variant-numeric:tabular-nums;white-space:nowrap;font-weight:500}
-.bar{width:100%;max-width:30px;border-radius:7px;background:repeating-linear-gradient(135deg,rgba(15,15,15,.2) 0 1.5px,transparent 1.5px 6px);min-height:6px}
-.bcol.max .bar{background:#0F0F0F}
-.blabels{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:8px;margin-top:8px;font-size:10.5px;text-align:center;color:var(--on-card-muted)}
-.chart .foot{display:flex;justify-content:space-between;align-items:baseline;margin-top:14px;gap:8px}
-.chart .foot .big{font-size:28px}
-.chart .foot .big .c{color:var(--on-card-muted)}
+/* insights chart: dashed grid and solid bars from one reference, hatched tracks from the other */
+.chart{background:var(--deep);border-radius:var(--r);padding:16px 12px 12px}
+.plot{position:relative;height:190px}
+.plot .grid{position:absolute;inset:18px 0 0;background:repeating-linear-gradient(to bottom,var(--line-soft) 0 1px,transparent 1px 25%);-webkit-mask:repeating-linear-gradient(to right,#000 0 4px,transparent 4px 8px);mask:repeating-linear-gradient(to right,#000 0 4px,transparent 4px 8px)}
+.bars{position:absolute;inset:0;display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:6px}
+.bcol{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%}
+.bcol::before{content:"";position:absolute;bottom:0;top:18px;width:16px;border-radius:5px;background:repeating-linear-gradient(135deg,var(--line-soft) 0 1.5px,transparent 1.5px 6px)}
+.bcol .v{font-size:11px;color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap;margin-bottom:6px;position:relative}
+.bcol .b{position:relative;width:16px;border-radius:4px;background:var(--ink)}
+.bcol .b::before{content:"";position:absolute;left:50%;top:-8px;height:8px;width:1.5px;transform:translateX(-50%);background:inherit}
+.bcol.max .b{background:var(--orange)}
+.bcol.max .v{color:var(--orange);font-weight:700}
+.blabels{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:6px;margin-top:10px;font-size:12px;font-weight:500;text-align:center}
+.rowline{box-shadow:inset 0 0 0 1.5px var(--line);border-radius:20px;padding:16px 18px;display:flex;justify-content:space-between;align-items:center;gap:12px}
+.rowline b{font-size:17px;letter-spacing:-.015em;display:block}
+.rowline .val{font-size:19px;font-weight:700;letter-spacing:-.02em;white-space:nowrap;font-variant-numeric:tabular-nums}
 
-/* nav: plain icons, active tab gets the black disc */
-.nav{position:fixed;left:0;right:0;bottom:0;z-index:20;background:linear-gradient(to top,var(--bg) 70%,transparent);padding:14px max(16px,env(safe-area-inset-right,0px)) calc(12px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
-.nav-in{max-width:488px;margin:0 auto;display:grid;grid-template-columns:repeat(5,1fr);align-items:center}
-.nav button{height:52px;display:grid;place-items:center;color:var(--ink)}
-.nav button span{width:52px;height:52px;border-radius:50%;display:grid;place-items:center;transition:background .2s}
-.nav button[aria-current="page"] span{background:var(--solid);color:var(--on-solid)}
+/* nav: black pill with grey active pill */
+.nav{position:fixed;left:0;right:0;bottom:0;padding:0 max(16px,env(safe-area-inset-right,0px)) calc(14px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));z-index:20;pointer-events:none}
+.nav-in{max-width:488px;margin:0 auto;background:var(--nav-bg);color:var(--nav-fg);border-radius:99px;padding:6px;display:grid;grid-template-columns:repeat(5,1fr);pointer-events:auto;box-shadow:0 10px 30px rgba(0,0,0,.18)}
+.nav button{height:50px;display:grid;place-items:center;color:var(--nav-fg)}
+.nav button span{width:100%;height:100%;border-radius:99px;display:grid;place-items:center;transition:background .2s}
+.nav button[aria-current="page"] span{background:var(--nav-active)}
 
 /* sheet */
-.scrim{position:fixed;inset:0;background:rgba(10,10,8,.4);z-index:30;display:flex;align-items:flex-end;justify-content:center}
-.sheet{background:var(--sheet);color:var(--ink);width:100%;max-width:560px;max-height:92%;overflow:auto;border-radius:26px 26px 0 0;padding:10px max(18px,env(safe-area-inset-right,0px)) calc(24px + env(safe-area-inset-bottom,0px)) max(18px,env(safe-area-inset-left,0px));display:flex;flex-direction:column;gap:16px;animation:up .28s cubic-bezier(.2,.8,.2,1)}
-.sheet .tiles,.sheet .chips{margin-inline:0;padding-inline:0}
+.scrim{position:fixed;inset:0;background:rgba(10,10,8,.42);z-index:30;display:flex;align-items:flex-end;justify-content:center}
+.sheet{background:var(--sheet);color:var(--ink);width:100%;max-width:560px;max-height:92%;overflow:auto;border-radius:28px 28px 0 0;padding:10px max(18px,env(safe-area-inset-right,0px)) calc(24px + env(safe-area-inset-bottom,0px)) max(18px,env(safe-area-inset-left,0px));display:flex;flex-direction:column;gap:16px;animation:up .28s cubic-bezier(.2,.8,.2,1)}
+.sheet .chips{margin-inline:0;padding-inline:0}
 .grab{width:38px;height:5px;border-radius:9px;background:var(--line);margin:0 auto 2px}
 .sheet-head{display:flex;align-items:flex-start;gap:12px}
 .sheet-head h2{flex:1;font-size:26px;font-weight:700;letter-spacing:-.03em;line-height:1.05;min-width:0;overflow-wrap:anywhere}
-.sheet-head .icon-btn{background:var(--tile)}
 @keyframes up{from{transform:translateY(40px);opacity:0}}
-.toast{position:fixed;left:50%;bottom:calc(86px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--solid);color:var(--on-solid);border-radius:14px;padding:11px 16px;font-size:14px;z-index:40;max-width:calc(100% - 32px);text-align:center}
+.toast{position:fixed;left:50%;bottom:calc(90px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--solid);color:var(--on-solid);border-radius:99px;padding:11px 18px;font-size:14px;font-weight:500;z-index:40;max-width:calc(100% - 32px);text-align:center}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
-@media (max-width:360px){.big{font-size:40px}.top h1{font-size:27px}}
+@media (max-width:360px){.big{font-size:38px}.top.page h1{font-size:27px}}
 </style>
 
 <main class="app" id="view" aria-live="polite"></main>
@@ -207,16 +231,16 @@ const I = {
 };
 const ic = (n, cls='') => `<svg class="svg ${cls}" viewBox="0 0 24 24" aria-hidden="true">${I[n]}</svg>`;
 const TABS = [['home','Home'],['list','Shopping list'],['recipes','Recipes'],['nest','Home & furniture'],['budget','Insights']];
-const COLORS = ['sage','tan','lemon','red','silver','orange','olive','khaki'];
+const COLORS = ['blue','yellow','mint','tan','orange','olive','khaki','silver','red'];
 const AISLES = [
-  ['Produce','sage',/\b(apple|banana|avocado|lemon|lime|onion|shallot|garlic|tomato|potato|carrot|lettuce|spinach|rocket|arugula|herb|basil|cilantro|coriander|parsley|mint|pepper|chilli|chili|cucumber|berr|grape|orange|ginger|mushroom|zucchini|courgette|broccoli|kale|cabbage|celery|leek|squash|pumpkin|fruit|veg|salad|scallion|spring onion)/],
-  ['Dairy & eggs','lemon',/\b(milk|cheese|yog(h)?urt|butter|cream|egg|feta|parmesan|mozzarella|ricotta|cheddar|halloumi)/],
+  ['Produce','mint',/\b(apple|banana|avocado|lemon|lime|onion|shallot|garlic|tomato|potato|carrot|lettuce|spinach|rocket|arugula|herb|basil|cilantro|coriander|parsley|mint|pepper|chilli|chili|cucumber|berr|grape|orange|ginger|mushroom|zucchini|courgette|broccoli|kale|cabbage|celery|leek|squash|pumpkin|fruit|veg|salad|scallion|spring onion)/],
+  ['Dairy & eggs','blue',/\b(milk|cheese|yog(h)?urt|butter|cream|egg|feta|parmesan|mozzarella|ricotta|cheddar|halloumi)/],
   ['Bakery','tan',/\b(bread|bagel|baguette|tortilla|wrap|bun|croissant|pita|naan|sourdough)/],
   ['Meat & fish','red',/\b(chicken|beef|pork|salmon|fish|cod|shrimp|prawn|bacon|sausage|turkey|tuna|lamb|mince|chorizo|ham)/],
-  ['Pantry','khaki',/\b(rice|pasta|spaghetti|flour|sugar|oil|salt|bean|lentil|chickpea|sauce|stock|broth|spice|cumin|paprika|cinnamon|honey|vinegar|oat|coffee|tea|cereal|nut|tin|canned|noodle|soy|miso|tahini|mustard|ketchup|mayo|jam|chocolate|curry|coconut|quinoa|couscous|wine)/],
+  ['Pantry','yellow',/\b(rice|pasta|spaghetti|flour|sugar|oil|salt|bean|lentil|chickpea|sauce|stock|broth|spice|cumin|paprika|cinnamon|honey|vinegar|oat|coffee|tea|cereal|nut|tin|canned|noodle|soy|miso|tahini|mustard|ketchup|mayo|jam|chocolate|curry|coconut|quinoa|couscous|wine)/],
   ['Frozen','silver',/\b(frozen|ice cream|peas)/],
   ['Household','olive',/\b(soap|detergent|paper|towel|tissue|sponge|bin bag|trash|toothpaste|shampoo|foil|cling|batter(y|ies)|bulb|cleaner|dish)/],
-  ['Other','silver',null]
+  ['Other','khaki',null]
 ];
 const AISLE_COLOR = Object.fromEntries(AISLES.map(a=>[a[0],a[1]]));
 const ROOMS = ['Living room','Bedroom','Kitchen','Dining','Bathroom','Office','Hallway','Outdoor'];
@@ -260,7 +284,7 @@ const rid = () => Math.random().toString(36).slice(2,10) + Date.now().toString(3
 const S = {shop:[], recipes:[], furniture:[], spend:[], settings:{}};
 const COLS = ['shop','recipes','furniture','spend'];
 let mode = 'loading', db = null, userApi = null, assets = null, me = null, people = {};
-const ui = { tab:'home', rtag:'All', rq:'', nestView:'board', room:'All', range:'week' };
+const ui = { open:null, tab:'home', rtag:'All', rq:'', nestView:'board', room:'All', range:'week' };
 try { const h = location.hash.slice(1); if (TABS.some(t=>t[0]===h)) ui.tab = h; } catch {}
 
 const limits = () => ({ groceries: num(S.settings.groceries ?? DEFAULTS.groceries) || DEFAULTS.groceries, home: num(S.settings.home ?? DEFAULTS.home) || DEFAULTS.home });
@@ -324,7 +348,7 @@ function avatar(id, cls='') {
   const p = people[id]; const isMe = !id || id === me || id === 'me';
   const label = isMe ? (people[me]?.name || 'You') : (p?.name || 'Partner');
   const initial = esc((label.trim()[0] || '?').toUpperCase());
-  const bg = isMe ? 'var(--lemon)' : 'var(--sage)';
+  const bg = isMe ? 'var(--yellow)' : 'var(--blue)';
   const inner = p?.avatarUrl ? `<img src="${esc(p.avatarUrl)}" alt="">` : initial;
   return `<span class="av ${cls}" style="background:${bg}" title="${esc(label)}">${inner}</span>`;
 }
@@ -339,12 +363,23 @@ function totals() {
 }
 
 /* ---------- views ---------- */
-/* ---------- views ---------- */
-function header(title, sub, action) {
-  return `<header class="top"><div style="flex:1;min-width:0"><h1>${title}</h1>${sub ? `<div class="sub">${sub}</div>` : ''}</div>${action || ''}</header>`;
+const ALIAS = {sage:'mint', lemon:'yellow', sand:'tan', grey:'silver'};
+const colorOf = (c, seed) => { c = ALIAS[c] || c; return COLORS.includes(c) ? c : hashColor(seed); };
+const pct = (v, l) => Math.max(0, Math.min(100, v / l * 100));
+function pageHead(title, sub, action) {
+  return `<header class="top page"><div class="ttl"><h1>${title}</h1>${sub ? `<div class="sub">${sub}</div>` : ''}</div>${action || ''}</header>`;
 }
 const banner = () => mode === 'local' ? `<div class="banner">Not syncing right now. Changes stay on this device until you open the shared link while signed in.</div>` : '';
-const pct = (v, l) => Math.max(0, Math.min(100, v / l * 100));
+const kv = (k, v, btn = '') => `<div class="kv"><span class="k">${k}</span><span class="v">${v}</span>${btn}</div>`;
+function wcard({id, color, icon, cat, name, sub, amt, amtSub, more, cls = ''}) {
+  const open = !!more && ui.open === id;
+  return `<div class="w c-${color} ${cls}">
+    <button class="w-head" ${more ? `data-act="toggle" data-id="${id}" aria-expanded="${open}"` : ''}>
+      <span class="sqi">${icon}</span>
+      <span class="w-main">${cat ? `<span class="cat">${cat}</span>` : ''}<span class="name">${name}</span>${sub ? `<span class="sub">${sub}</span>` : ''}</span>
+      ${amt ? `<span class="amt">${amt}${amtSub ? `<small>${amtSub}</small>` : ''}</span>` : ''}
+    </button>${open ? `<div class="w-more">${more}</div>` : ''}</div>`;
+}
 
 function vHome() {
   const t = totals(), L = t.L;
@@ -353,32 +388,43 @@ function vHome() {
   const est = open.reduce((a,x) => a + num(x.price), 0);
   const next = S.furniture.filter(f => f.status === 'planned').sort((a,b) => num(a.price)-num(b.price));
   const recent = [...S.spend].sort((a,b) => (b.date||'').localeCompare(a.date||'') || b.createdAt - a.createdAt).slice(0,5);
-  return `${header('Our Nest:<br>Shopping, Home<br>and Budget', '', `<button class="icon-btn" data-act="quick" aria-label="Add something">${ic('plus')}</button>`)}
+  const ids = [me, partnerId()].filter(Boolean);
+  return `<header class="top">
+    <div class="avs">${(ids.length ? ids : [null]).map(i => avatar(i)).join('')}</div>
+    <div class="ttl"><h1>Our Nest</h1><div class="sub">${new Date().toLocaleDateString('en-GB',{weekday:'long', day:'numeric', month:'long'})}</div></div>
+    <button class="circle-btn" data-act="quick" aria-label="Add something">${ic('plus')}</button></header>
   ${banner()}
-  <div class="dots" aria-hidden="true"></div>
-  <section class="balance" aria-label="Joint account">
-    <span class="lbl">Joint account · left to spend in ${monthName()}</span>
-    <div class="big">${bigMoney(left)}</div>
+  <section class="hero" aria-label="Joint account">
+    <span class="lbl">Joint account · left to spend</span>
+    <div class="foot"><span class="big">${bigMoney(left)}</span><span class="when">${new Date().toLocaleDateString('en-GB',{month:'short'})} ${String(new Date().getFullYear()).slice(2)}</span></div>
   </section>
-  <div class="tiles">
-    <button class="sq" data-go="list"><span class="badge">${ic('list','sm')}</span><span><span class="lbl" style="display:block">Groceries · ${money0(t.groc)} of ${money0(L.groceries)}</span><span class="amt">${money0(t.grocLeft)}</span><span class="meter"><i class="${t.grocLeft<0?'over':''}" style="width:${pct(t.groc, L.groceries)}%"></i></span></span></button>
-    <button class="sq" data-go="nest"><span class="badge">${ic('nest','sm')}</span><span><span class="lbl" style="display:block">Home fund · ${money0(t.home)} of ${money0(L.home)}</span><span class="amt">${money0(t.homeLeft)}</span><span class="meter"><i class="${t.homeLeft<0?'over':''}" style="width:${pct(t.home, L.home)}%"></i></span></span></button>
-    <button class="sq" data-go="list"><span class="badge light">${ic('list','sm')}</span><span><span class="lbl" style="display:block">To buy</span><span class="amt">${open.length}</span><span class="nm">${est ? 'about ' + money0(est) : 'Shopping list'}</span></span></button>
-    ${next.slice(0,3).map(f => `<button class="sq" data-act="furn-edit" data-id="${f.id}"><span class="badge light">${ic('nest','sm')}</span><span><span class="lbl" style="display:block">${esc(f.room || 'Home')}</span><span class="amt">${money0(f.price)}</span><span class="nm">${esc(f.name)}</span></span></button>`).join('')}
-    <button class="sq" data-go="recipes"><span class="badge light">${ic('recipes','sm')}</span><span><span class="lbl" style="display:block">Recipe book</span><span class="amt">${S.recipes.length}</span><span class="nm">saved</span></span></button>
-  </div>
-  <section style="display:flex;flex-direction:column;gap:12px">
-    <div class="sec-head"><h2>Expenses</h2><button class="text-btn" data-go="budget">All ${ic('down')}</button></div>
+  <section class="sec">
+    <div class="sec-head"><h2>Upcoming</h2><button class="pill-btn" data-go="budget">View all</button></div>
+    <div class="tiles">
+      <button class="tile" data-go="list"><span class="hd"><span class="sqi">${ic('list','sm')}</span><span><span class="amt">${money0(t.grocLeft)}</span><span class="sm">of ${money0(L.groceries)} left</span></span></span><span><span class="nm">Groceries</span><span class="meter" style="margin-top:8px"><i class="${t.grocLeft<0?'over':''}" style="width:${pct(t.groc, L.groceries)}%"></i></span></span></button>
+      <button class="tile" data-go="nest"><span class="hd"><span class="sqi">${ic('nest','sm')}</span><span><span class="amt">${money0(t.homeLeft)}</span><span class="sm">of ${money0(L.home)} left</span></span></span><span><span class="nm">Home fund</span><span class="meter" style="margin-top:8px"><i class="${t.homeLeft<0?'over':''}" style="width:${pct(t.home, L.home)}%"></i></span></span></button>
+      <button class="tile" data-go="list"><span class="hd"><span class="sqi">${ic('check','sm')}</span><span><span class="amt">${open.length} item${open.length===1?'':'s'}</span><span class="sm">${est ? 'about ' + money0(est) : 'to pick up'}</span></span></span><span class="nm">Shopping list</span></button>
+      ${next.slice(0,3).map(f => `<button class="tile" data-act="open-buy" data-id="${f.id}"><span class="hd"><span class="sqi">${ic('nest','sm')}</span><span><span class="amt">${money0(f.price)}</span><span class="sm">${esc(f.room || 'To buy')}</span></span></span><span class="nm">${esc(f.name)}</span></button>`).join('')}
+    </div>
+  </section>
+  <section class="sec">
+    <div class="sec-head"><h2>Expenses</h2><button class="pill-btn" data-go="budget">View all</button></div>
     ${recent.length ? `<div class="wallet">${recent.map(spendCard).join('')}</div>` :
       `<div class="empty"><b>No expenses yet</b><span>Check out a grocery trip from the list, mark a furniture piece as bought, or log an expense from the joint account by hand.</span><button class="btn" data-act="spend-new">Log an expense</button></div>`}
   </section>`;
 }
 function spendCard(s) {
   const home = s.section === 'home';
-  return `<button class="w ${home ? 'c-orange' : (s.items ? 'c-sage' : 'c-lemon')}" data-act="spend-edit" data-id="${s.id}">
-    <span class="badge">${ic(home ? 'nest' : 'list','sm')}</span>
-    <span class="cat">${home ? 'Home fund' : 'Groceries'} · ${fmtDate(s.date)}${s.items ? ` · ${s.items} item${s.items===1?'':'s'}` : ''}</span>
-    <span class="row"><span class="name">${esc(s.label || (home ? 'Home' : 'Groceries'))}</span><span class="val">-${money(s.amount)}</span></span></button>`;
+  return wcard({
+    id: 's-' + s.id, color: home ? 'orange' : (s.items ? 'mint' : 'blue'), icon: ic(home ? 'nest' : 'list'),
+    cat: home ? 'Home fund' : 'Groceries', name: esc(s.label || (home ? 'Home' : 'Groceries')),
+    sub: fmtDate(s.date) + (s.items ? ` · ${s.items} item${s.items===1?'':'s'}` : ''),
+    amt: '-' + money(s.amount), amtSub: 'joint account',
+    more: kv('Budget', home ? 'Home fund' : 'Groceries', `<button class="opill" data-act="spend-edit" data-id="${s.id}">Edit</button>`)
+      + kv('Date', esc(parseD(s.date).toLocaleDateString('en-GB',{weekday:'short', day:'numeric', month:'long'})))
+      + (s.furnitureId ? kv('Linked to', 'Purchase list', `<button class="opill" data-act="open-buy" data-id="${s.furnitureId}">Show</button>`) : '')
+      + `<button class="bpill" data-act="del-inline" data-col="spend" data-id="${s.id}">Delete expense</button>`
+  });
 }
 
 function vList() {
@@ -386,16 +432,16 @@ function vList() {
   const est = done.reduce((a,x) => a + num(x.price), 0);
   const groups = AISLES.map(([a]) => [a, open.filter(x => (x.aisle || 'Other') === a).sort((p,q) => p.createdAt - q.createdAt)]).filter(g => g[1].length);
   const t = totals();
-  return `${header('Shopping list', `${open.length} to get · ${money0(t.grocLeft)} left for groceries in ${monthName()}`)}
+  return `${pageHead('Shopping list', `${open.length} to get · ${money0(t.grocLeft)} left for groceries in ${monthName()}`)}
   ${banner()}
   <form class="qa" data-form="shop-quick" autocomplete="off">
     <input class="field" id="shop-quick-name" name="name" placeholder="Add an item, e.g. 2 avocados" aria-label="New item" enterkeyhint="done">
     <button class="btn round" type="submit" aria-label="Add item">${ic('plus')}</button>
   </form>
   ${groups.length || done.length ? `<div class="wallet">
-    ${groups.map(([a, items]) => `<section class="w c-${AISLE_COLOR[a]}"><span class="badge">${ic('list','sm')}</span><span class="cat">${esc(a)} · ${items.length}</span><div class="items">${items.map(itemRow).join('')}</div></section>`).join('')}
-    ${done.length ? `<section class="w basket"><span class="badge" style="background:var(--on-solid);color:var(--solid)">${ic('check','sm')}</span><span class="cat">In the basket · ${done.length}</span><div class="items">${done.map(itemRow).join('')}</div>
-      <button class="btn full" data-act="checkout">Check out${est ? ' · about ' + money(est) : ''}</button></section>` : ''}
+    ${groups.map(([a, items]) => `<section class="w c-${AISLE_COLOR[a]}"><div class="w-head"><span class="sqi">${ic('list')}</span><span class="w-main"><span class="cat">Aisle</span><span class="name">${esc(a)}</span></span><span class="amt">${items.length}<small>item${items.length===1?'':'s'}</small></span></div><div class="items">${items.map(itemRow).join('')}</div></section>`).join('')}
+    ${done.length ? `<section class="w basket"><div class="w-head"><span class="sqi">${ic('check')}</span><span class="w-main"><span class="cat">Ready to pay</span><span class="name">In the basket</span></span><span class="amt">${done.length}<small>item${done.length===1?'':'s'}</small></span></div><div class="items">${done.map(itemRow).join('')}</div>
+      <button class="btn" data-act="checkout">Check out${est ? ' · about ' + money(est) : ''}</button></section>` : ''}
   </div>` : `<div class="empty"><b>The list is empty</b><span>Type above to add items. They’re sorted into aisles automatically and show up on both your phones straight away.</span></div>`}`;
 }
 function itemRow(x) {
@@ -403,7 +449,7 @@ function itemRow(x) {
     <button class="tick" data-act="shop-toggle" data-id="${x.id}" aria-label="${x.done ? 'Put back' : 'Got it'}: ${esc(x.name)}">${ic('check')}</button>
     <button class="nm" data-act="shop-edit" data-id="${x.id}">${esc(x.name)}${x.qty || x.recipe ? `<small>${esc([x.qty, x.recipe ? 'for ' + x.recipe : ''].filter(Boolean).join(' · '))}</small>` : ''}</button>
     ${x.price ? `<span class="px">${money(x.price)}</span>` : ''}
-    ${avatar(x.by)}
+    ${avatar(x.by, 's')}
   </div>`;
 }
 
@@ -413,22 +459,27 @@ function vRecipes() {
   const q = ui.rq.toLowerCase();
   const list = S.recipes.filter(r => (ui.rtag === 'All' || r.tag === ui.rtag) && (!q || (r.title + ' ' + (r.ingredients||[]).join(' ')).toLowerCase().includes(q)))
     .sort((a,b) => String(a.title).localeCompare(String(b.title)));
-  return `${header('Recipes', `${S.recipes.length} saved`, `<button class="icon-btn" data-act="recipe-new" aria-label="Add recipe">${ic('plus')}</button>`)}
+  return `${pageHead('Recipe book', `${S.recipes.length} saved`, `<button class="circle-btn" data-act="recipe-new" aria-label="Add recipe">${ic('plus')}</button>`)}
   ${banner()}
   ${S.recipes.length ? `<input class="field" id="recipe-search" placeholder="Search by name or ingredient" value="${esc(ui.rq)}" aria-label="Search recipes">
   ${tags.length > 2 ? `<div class="chips">${tags.map(t => `<button class="chip" data-act="rtag" data-v="${esc(t)}" aria-pressed="${ui.rtag===t}">${esc(t)}</button>`).join('')}</div>` : ''}
-  ${list.length ? `<div class="wallet">${list.map(r => `<button class="w c-${COLORS.includes(r.color) ? r.color : hashColor(r.title)}" data-act="recipe-open" data-id="${r.id}">
-      <span class="badge">${ic('recipes','sm')}</span>
-      <span class="cat">${esc([r.tag || 'Recipe', r.serves ? 'serves ' + r.serves : '', (r.ingredients||[]).length ? r.ingredients.length + ' ingredients' : ''].filter(Boolean).join(' · '))}</span>
-      <span class="row"><span class="name">${esc(r.title)}</span><span class="val">${r.time ? esc(r.time) + ' min' : ''}</span></span></button>`).join('')}</div>`
+  ${list.length ? `<div class="wallet">${list.map(r => wcard({
+      id: 'r-' + r.id, color: colorOf(r.color, r.title), icon: `<b style="font-size:22px;font-weight:800;letter-spacing:-.04em">${esc(((r.title||'').trim()[0]||'?').toUpperCase())}</b>`,
+      cat: esc(r.tag || 'Recipe'), name: esc(r.title), sub: (r.ingredients||[]).length ? `${r.ingredients.length} ingredients` : '',
+      amt: r.time ? esc(r.time) + ' min' : '', amtSub: r.serves ? 'serves ' + esc(r.serves) : '',
+      more: kv('Time', r.time ? esc(r.time) + ' minutes' : '—') + kv('Serves', esc(r.serves || '—'), `<button class="opill" data-act="recipe-edit-id" data-id="${r.id}">Edit</button>`)
+        + kv('Added by', esc(firstName(r.by)))
+        + `<button class="bpill" data-act="recipe-open" data-id="${r.id}">Open recipe</button>`
+    })).join('')}</div>`
     : `<div class="empty"><b>No matches</b><span>Try another word or tag.</span></div>`}`
   : `<div class="empty"><b>Your recipe book is empty</b><span>Save the dishes you both like. Each recipe can send its ingredients to the shopping list in one tap.</span><button class="btn" data-act="recipe-new">Add a recipe</button></div>`}`;
 }
 
-function furnFill(f) { return f.hex ? esc(f.hex) : 'var(--' + esc(COLORS.includes(f.color) ? f.color : hashColor(f.name)) + ')'; }
+const furnColor = f => { const c = colorOf(f.color, f.name); return c === 'silver' ? 'khaki' : c; };
+function furnFill(f) { return f.hex ? esc(f.hex) : 'var(--' + furnColor(f) + ')'; }
 function furnImg(f) {
   if (f.image) return `<img src="/_blob/${esc(f.image)}" alt="${esc(f.name)}" loading="lazy">`;
-  return `<span class="swatch" style="display:block;background:${furnFill(f)};--ar:${[1,.8,1.25][(f.name||'').length % 3]}"></span>`;
+  return `<span class="swatch" style="background:${furnFill(f)};--ar:${[1,.8,1.25][(f.name||'').length % 3]}"></span>`;
 }
 function vNest() {
   const rooms = ['All', ...ROOMS.filter(r => S.furniture.some(f => f.room === r))];
@@ -438,26 +489,30 @@ function vNest() {
   const board = inRoom.slice().sort((a,b) => b.createdAt - a.createdAt);
   const toBuy = inRoom.filter(f => f.status !== 'idea').sort((a,b) => (a.status === 'bought') - (b.status === 'bought') || b.createdAt - a.createdAt);
   const over = t.planned > t.homeLeft;
-  return `${header('Home &amp;<br>Furniture', `${money0(t.homeLeft)} left in the home fund`, `<button class="icon-btn" data-act="furn-new" aria-label="Add a piece">${ic('plus')}</button>`)}
+  return `${pageHead('Home &amp;<br>Furniture', `${money0(t.homeLeft)} left in the home fund`, `<button class="circle-btn" data-act="furn-new" aria-label="Add a piece">${ic('plus')}</button>`)}
   ${banner()}
   <div class="seg" role="group" aria-label="View"><button data-act="nestview" data-v="board" aria-pressed="${ui.nestView==='board'}">Moodboard</button><button data-act="nestview" data-v="buy" aria-pressed="${ui.nestView==='buy'}">Purchase list</button></div>
   ${rooms.length > 2 ? `<div class="chips">${rooms.map(r => `<button class="chip" data-act="room" data-v="${esc(r)}" aria-pressed="${ui.room===r}">${esc(r)}</button>`).join('')}</div>` : ''}
   ${!S.furniture.length ? `<div class="empty"><b>Start the moodboard</b><span>Add photos of pieces you love, or a colour swatch for a paint or fabric. Heart each other’s finds, then move the keepers to the purchase list.</span><button class="btn" data-act="furn-new">Add the first piece</button></div>`
   : ui.nestView === 'board' ? `<div class="mood">${board.map(f => {
       const likes = f.likes || []; const on = me && likes.includes(me);
-      return `<div class="mtile c-${COLORS.includes(f.color) ? f.color : hashColor(f.name)}"><button data-act="furn-edit" data-id="${f.id}">${furnImg(f)}
-        <span class="cap"><span class="lbl">${esc([f.room || 'Home', f.status !== 'idea' ? STATUS[f.status][0] : ''].filter(Boolean).join(' · '))}</span><b>${esc(f.name)}</b>${f.price ? `<span style="font-size:15px;letter-spacing:-.02em">${money0(f.price)}</span>` : ''}</span></button>
+      return `<div class="mtile c-${furnColor(f)}"><button data-act="furn-edit" data-id="${f.id}">${furnImg(f)}
+        <span class="cap"><span class="cat">${esc([f.room || 'Home', f.status !== 'idea' ? STATUS[f.status][0] : ''].filter(Boolean).join(' · '))}</span><b>${esc(f.name)}</b>${f.price ? `<span class="p">${money0(f.price)}</span>` : ''}</span></button>
         <button class="heart ${on ? 'on' : ''}" data-act="like" data-id="${f.id}" aria-pressed="${!!on}" aria-label="Like ${esc(f.name)}">${ic('heart')}${likes.length >= 2 ? 'Both' : likes.length || ''}</button></div>`; }).join('')}</div>`
   : `<div class="tiles grid">
-      <div class="sq" style="min-height:0"><span class="lbl">Planned</span><span class="amt">${money0(t.planned)}</span></div>
-      <div class="sq" style="min-height:0"><span class="lbl">${over ? 'Over the fund by' : 'Spare after'}</span><span class="amt ${over ? 'warn' : ''}">${money0(Math.abs(t.homeLeft - t.planned))}</span></div>
+      <div class="tile"><span class="hd"><span class="sqi">${ic('list','sm')}</span><span><span class="amt">${money0(t.planned)}</span><span class="sm">planned</span></span></span></div>
+      <div class="tile"><span class="hd"><span class="sqi">${ic('nest','sm')}</span><span><span class="amt ${over ? 'warn' : ''}">${money0(Math.abs(t.homeLeft - t.planned))}</span><span class="sm">${over ? 'over the fund' : 'spare after'}</span></span></span></div>
     </div>
-    ${toBuy.length ? `<div class="wallet">${toBuy.map(f => `<div class="w ${f.status === 'bought' ? 'c-silver' : 'c-' + (COLORS.includes(f.color) ? f.color : hashColor(f.name))}">
-      <button data-act="furn-edit" data-id="${f.id}" style="display:block;width:100%">
-        <span class="badge">${ic(f.status === 'bought' ? 'check' : 'nest','sm')}</span>
-        <span class="cat">${esc([f.room, f.store, f.status === 'bought' ? 'Bought' : ''].filter(Boolean).join(' · ') || 'Home')}</span>
-        <span class="row"><span class="name">${esc(f.name)}</span><span class="val">${money(f.price)}</span></span></button>
-      <div class="acts"><span></span>${f.status === 'bought' ? `<button class="mini" data-act="unbuy" data-id="${f.id}">Undo bought</button>` : `<button class="mini" data-act="buy" data-id="${f.id}">Mark bought</button>`}</div></div>`).join('')}</div>`
+    ${toBuy.length ? `<div class="wallet">${toBuy.map(f => wcard({
+      id: 'f-' + f.id, color: f.status === 'bought' ? 'silver' : furnColor(f),
+      icon: f.image ? `<img src="/_blob/${esc(f.image)}" alt="" style="width:100%;height:100%;object-fit:cover;border-radius:12px">` : `<span style="width:24px;height:24px;border-radius:50%;background:${furnFill(f)};box-shadow:0 0 0 1.5px rgba(17,17,17,.25)"></span>`,
+      cat: esc(f.room || 'Home'), name: esc(f.name), sub: esc(f.status === 'bought' ? 'Bought' : (f.store || 'To buy')),
+      amt: money(f.price), amtSub: f.status === 'bought' ? 'paid' : 'planned',
+      more: kv('Store', esc(f.store || '—'), f.link && /^https?:\/\//.test(f.link) ? `<a class="opill" href="${esc(f.link)}" target="_blank" rel="noopener">Open ↗</a>` : '')
+        + kv('Status', STATUS[f.status][0], `<button class="opill" data-act="furn-edit" data-id="${f.id}">Edit</button>`)
+        + (f.notes ? kv('Notes', esc(f.notes)) : '')
+        + (f.status === 'bought' ? `<button class="bpill" data-act="unbuy" data-id="${f.id}">Undo bought</button>` : `<button class="bpill" data-act="buy" data-id="${f.id}">Mark bought · ${money(f.price)}</button>`)
+    })).join('')}</div>`
     : `<div class="empty"><b>Nothing on the purchase list</b><span>Open a moodboard piece and set it to “To buy” once you’ve both agreed on it.</span></div>`}`}`;
 }
 
@@ -472,22 +527,22 @@ function vBudget() {
   }
   const cols = days.map(d => ({...d, v: S.spend.filter(d.match).reduce((a,s) => a + num(s.amount), 0)}));
   const max = Math.max(0, ...cols.map(c => c.v)), top = max > 0 ? niceMax(max) : 100;
-  const periodTotal = cols.reduce((a,c) => a + c.v, 0);
+  const monthTotal = S.spend.filter(s => monthKey(s.date) === thisMonth()).reduce((a,s) => a + num(s.amount), 0);
   const hist = [...S.spend].sort((a,b) => (b.date||'').localeCompare(a.date||'') || b.createdAt - a.createdAt);
-  return `${header('Budgeting and<br>Spending Insights', '', `<button class="text-btn" data-act="range">${ui.range === 'week' ? 'Week' : 'Month'} ${ic('down')}</button>`)}
+  return `${pageHead('Budgeting and<br>Spending Insights', '', `<button class="pill-btn" data-act="range">${ui.range === 'week' ? 'Week' : 'Month'} ${ic('down')}</button>`)}
   ${banner()}
-  <section class="chart c-khaki" aria-label="Joint account spending per ${ui.range === 'week' ? 'day' : 'week'}">
-    <div class="bars">${cols.map(c => `<div class="bcol ${c.v && c.v === max ? 'max' : ''}"><span class="v">${c.v && c.v === max ? money0(c.v) : ''}</span><span class="bar" style="height:${c.v ? Math.max(6, c.v / top * 88) : 4}%"></span></div>`).join('')}</div>
+  <section class="chart" aria-label="Joint account spending per ${ui.range === 'week' ? 'day' : 'week'}">
+    <div class="plot"><div class="grid"></div><div class="bars">${cols.map(c => `<div class="bcol ${c.v && c.v === max ? 'max' : ''}">${c.v ? `<span class="v">${money0(c.v)}</span><span class="b" style="height:${Math.max(3, c.v / top * 78)}%"></span>` : ''}</div>`).join('')}</div></div>
     <div class="blabels">${cols.map(c => `<span>${esc(c.label)}</span>`).join('')}</div>
-    <div class="foot"><span class="lbl" style="color:var(--on-card-muted)">${ui.range === 'week' ? 'Last 7 days' : monthName()}</span><span class="big">${bigMoney(periodTotal)}</span></div>
   </section>
+  <div class="rowline"><span><b>Expenses</b><span class="lbl">${monthName()} ${new Date().getFullYear()} · joint account</span></span><span class="val">-${money(monthTotal)}</span></div>
   <div class="tiles grid">
-    <div class="sq"><span class="badge">${ic('list','sm')}</span><span><span class="lbl" style="display:block">Groceries · ${monthName()}</span><span class="amt">${money0(t.groc)}</span><span class="nm muted">of ${money0(L.groceries)} · ${t.grocLeft < 0 ? `<span class="warn">${money0(-t.grocLeft)} over</span>` : money0(t.grocLeft) + ' left'}</span><span class="meter"><i class="${t.grocLeft<0?'over':''}" style="width:${pct(t.groc, L.groceries)}%"></i></span></span></div>
-    <div class="sq"><span class="badge">${ic('nest','sm')}</span><span><span class="lbl" style="display:block">Home fund</span><span class="amt">${money0(t.home)}</span><span class="nm muted">of ${money0(L.home)} · ${money0(t.planned)} planned</span><span class="meter"><i class="${t.homeLeft<0?'over':''}" style="width:${pct(t.home, L.home)}%"></i></span></span></div>
+    <div class="tile"><span class="hd"><span class="sqi">${ic('list','sm')}</span><span><span class="amt">${money0(t.groc)}</span><span class="sm">of ${money0(L.groceries)}</span></span></span><span><span class="nm">Groceries</span><span class="sm">${t.grocLeft < 0 ? `<span class="warn">${money0(-t.grocLeft)} over</span>` : money0(t.grocLeft) + ' left this month'}</span><span class="meter" style="margin-top:8px"><i class="${t.grocLeft<0?'over':''}" style="width:${pct(t.groc, L.groceries)}%"></i></span></span></div>
+    <div class="tile"><span class="hd"><span class="sqi">${ic('nest','sm')}</span><span><span class="amt">${money0(t.home)}</span><span class="sm">of ${money0(L.home)}</span></span></span><span><span class="nm">Home fund</span><span class="sm">${money0(t.planned)} more planned</span><span class="meter" style="margin-top:8px"><i class="${t.homeLeft<0?'over':''}" style="width:${pct(t.home, L.home)}%"></i></span></span></div>
   </div>
   <button class="btn ghost" data-act="limits">Edit budgets</button>
-  <section style="display:flex;flex-direction:column;gap:12px">
-    <div class="sec-head"><h2>Expenses</h2><button class="text-btn" data-act="spend-new">${ic('plus')} Add</button></div>
+  <section class="sec">
+    <div class="sec-head"><h2>History</h2><button class="pill-btn" data-act="spend-new">${ic('plus')} Add</button></div>
     ${hist.length ? `<div class="wallet">${hist.map(spendCard).join('')}</div>` : `<div class="empty"><b>No expenses yet</b><span>Everything you check out or mark as bought lands here.</span></div>`}
   </section>`;
 }
@@ -500,7 +555,7 @@ function render() {
   const a = document.activeElement; let keep = null;
   if (a && a.id && view.contains(a)) keep = {id: a.id, v: a.value, s: a.selectionStart, e: a.selectionEnd};
   const y = window.scrollY;
-  view.innerHTML = mode === 'loading' ? `${header(TABS.find(t=>t[0]===ui.tab)[1], 'Loading your shared lists…')}`
+  view.innerHTML = mode === 'loading' ? `${pageHead(esc(TABS.find(t=>t[0]===ui.tab)[1]), 'Loading your shared lists…')}`
     : ({home: vHome, list: vList, recipes: vRecipes, nest: vNest, budget: vBudget})[ui.tab]();
   nav.innerHTML = TABS.map(([k, label]) => `<button data-go="${k}" aria-label="${label}" ${ui.tab===k ? 'aria-current="page"' : ''}><span>${ic(k)}</span></button>`).join('');
   if (keep) { const el = document.getElementById(keep.id); if (el) { el.value = keep.v; el.focus(); try { el.setSelectionRange(keep.s, keep.e); } catch {} } }
@@ -518,7 +573,7 @@ let sheetCtx = null;
 function openSheet(title, body, ctx = {}) {
   sheetCtx = ctx;
   root.innerHTML = `<div class="scrim" data-act="close-scrim"><div class="sheet" role="dialog" aria-modal="true" aria-label="${esc(title)}">
-    <div class="grab"></div><div class="sheet-head"><h2>${esc(title)}</h2><button class="icon-btn" data-act="close" aria-label="Close">${ic('x')}</button></div>${body}</div></div>`;
+    <div class="grab"></div><div class="sheet-head"><h2>${esc(title)}</h2><button class="circle-btn" data-act="close" aria-label="Close">${ic('x')}</button></div>${body}</div></div>`;
   const f = root.querySelector('input:not([type=hidden]):not([type=file]),textarea'); if (f && !ctx.noFocus) setTimeout(() => f.focus(), 60);
 }
 function closeSheet() { root.innerHTML = ''; sheetCtx = null; }
@@ -605,11 +660,8 @@ function furnSheet(f) {
     <div class="${f.id ? 'grid2' : ''}">${f.id ? delBtn('furniture') : ''}<button class="btn ${f.id ? '' : 'full'}" type="submit">${f.id ? 'Save' : 'Add to moodboard'}</button></div></form>`, {col:'furniture', id:f.id, item:f});
 }
 function quickSheet() {
-  openSheet('Add to…', `<div class="wallet">
-    <button class="w c-sage" data-act="q" data-v="list"><span class="badge">${ic('list','sm')}</span><span class="cat">Something we need from the shop</span><span class="row"><span class="name">Shopping list</span></span></button>
-    <button class="w c-lemon" data-act="q" data-v="recipe"><span class="badge">${ic('recipes','sm')}</span><span class="cat">A dish worth keeping</span><span class="row"><span class="name">Recipe book</span></span></button>
-    <button class="w c-tan" data-act="q" data-v="furn"><span class="badge">${ic('nest','sm')}</span><span class="cat">A piece for the home</span><span class="row"><span class="name">Moodboard</span></span></button>
-    <button class="w c-orange" data-act="q" data-v="spend"><span class="badge">${ic('euro','sm')}</span><span class="cat">Paid from the joint account</span><span class="row"><span class="name">Expense</span></span></button></div>`, {noFocus:true});
+  const q = (v, color, icon, cat, name) => `<div class="w c-${color}"><button class="w-head" data-act="q" data-v="${v}"><span class="sqi">${ic(icon)}</span><span class="w-main"><span class="cat">${cat}</span><span class="name">${name}</span></span></button></div>`;
+  openSheet('Add to…', `<div class="wallet">${q('list','mint','list','Something we need from the shop','Shopping list')}${q('recipe','yellow','recipes','A dish worth keeping','Recipe book')}${q('furn','tan','nest','A piece for the home','Moodboard')}${q('spend','orange','euro','Paid from the joint account','Expense')}</div>`, {noFocus:true});
 }
 
 /* ---------- actions ---------- */
@@ -631,6 +683,15 @@ document.addEventListener('click', async e => {
   switch (act) {
     case 'close': case 'close-scrim': closeSheet(); break;
     case 'quick': quickSheet(); break;
+    case 'toggle': ui.open = ui.open === id ? null : id; render(); break;
+    case 'open-buy': closeSheet(); ui.nestView = 'buy'; ui.room = 'All'; ui.open = 'f-' + id; if (ui.tab === 'nest') render(); else go('nest'); break;
+    case 'recipe-edit-id': { const r = find('recipes', id); if (r) recipeSheet(r); break; }
+    case 'del-inline': {
+      if (!b.dataset.armed) { b.dataset.armed = '1'; b.textContent = 'Tap again to delete'; break; }
+      const col = b.dataset.col;
+      if (col === 'spend') { const s = find('spend', id); if (s?.furnitureId && find('furniture', s.furnitureId)) await upd('furniture', s.furnitureId, {status:'planned', spendId:null}); }
+      ui.open = null; await del(col, id); break;
+    }
     case 'q': closeSheet(); ({list: () => { go('list'); setTimeout(() => document.getElementById('shop-quick-name')?.focus(), 50); }, recipe: () => recipeSheet(), furn: () => furnSheet(), spend: () => spendSheet()})[b.dataset.v](); break;
     case 'shop-toggle': { const x = find('shop', id); if (x) upd('shop', id, {done: !x.done}); break; }
     case 'shop-edit': { const x = find('shop', id); if (x) shopSheet(x); break; }
