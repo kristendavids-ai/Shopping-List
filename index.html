@@ -186,9 +186,6 @@ textarea.field{resize:vertical;min-height:96px;line-height:1.5}
 .env .bar{background:var(--line-soft)}
 .env .bar i{background:var(--ink)}
 .env .bar i.over{background:var(--danger)}
-.settle{display:flex;align-items:center;gap:14px}
-.settle .main{flex:1;min-width:0}
-.settle b{font-family:var(--display);font-size:17px}
 
 /* nav */
 .nav{position:fixed;left:0;right:0;bottom:0;padding:0 max(16px,env(safe-area-inset-right,0px)) calc(14px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));z-index:20;pointer-events:none}
@@ -346,15 +343,6 @@ function totals() {
   const planned = S.furniture.filter(f => f.status === 'planned').reduce((a,f) => a + num(f.price), 0);
   return {L, groc, home, planned, grocLeft: L.groceries - groc, homeLeft: L.home - home};
 }
-function settle() {
-  const m = thisMonth(), by = {};
-  for (const s of S.spend) if (monthKey(s.date) === m) { const k = s.by === 'me' ? (me||'me') : s.by; by[k] = (by[k]||0) + num(s.amount); }
-  const ids = Object.keys(by);
-  if (ids.length < 2) return {ids, by, owes:null};
-  const [a,b] = ids.sort((x,y) => by[y]-by[x]);
-  const diff = (by[a] - by[b]) / 2;
-  return {ids, by, owes: diff < 0.005 ? null : {from:b, to:a, amount:diff}};
-}
 
 /* ---------- views ---------- */
 function header(title, sub, action) {
@@ -374,12 +362,11 @@ function vHome() {
   const est = open.reduce((a,x) => a + num(x.price), 0);
   const next = S.furniture.filter(f => f.status === 'planned').sort((a,b) => num(a.price)-num(b.price));
   const recent = [...S.spend].sort((a,b) => (b.date||'').localeCompare(a.date||'') || b.createdAt - a.createdAt).slice(0,4);
-  const st = settle();
   const pct = (v, l) => Math.max(0, Math.min(100, v / l * 100));
   return `${header('Our Nest', new Date().toLocaleDateString('en-US',{weekday:'long', month:'long', day:'numeric'}), `<button class="circle-btn" data-act="quick" aria-label="Add something">${ic('plus')}</button>`)}
   ${banner()}
   <section class="hero" aria-label="Shared budget">
-    <div class="lbl"><span>Left to spend together</span><span class="num">${monthName()}</span></div>
+    <div class="lbl"><span>Joint account · left to spend</span><span class="num">${monthName()}</span></div>
     <div class="big num">${bigMoney(left)}</div>
     <div class="split">
       <button data-go="list" style="text-align:left"><small>Groceries this month</small><b class="num">${money0(t.grocLeft)} left</b><small class="num">${money0(t.groc)} of ${money0(L.groceries)}</small><div class="bar"><i style="width:${pct(t.groc, L.groceries)}%"></i></div></button>
@@ -396,7 +383,6 @@ function vHome() {
     </div>
   </section>
 
-  ${st.owes ? `<section class="outline settle">${avatar(st.owes.from)}<div class="main"><b>${esc(firstName(st.owes.from))} ${st.owes.from===me?'owe':'owes'} ${esc(firstName(st.owes.to)==='You'?'you':firstName(st.owes.to))} ${money(st.owes.amount)}</b><div class="muted" style="font-size:13px">To split ${monthName()} spending 50/50</div></div><button class="pill-btn" data-go="budget">Details</button></section>` : ''}
 
   <section style="display:flex;flex-direction:column;gap:12px">
     <div class="sec-head"><h2>Recent spending</h2><button class="pill-btn" data-go="budget">View all</button></div>
@@ -408,7 +394,7 @@ function spendCard(s) {
   const home = s.section === 'home';
   return `<button class="ccard ${home ? 'c-orange' : (s.items ? 'c-mint' : 'c-blue')}" data-act="spend-edit" data-id="${s.id}">
     <span class="ico">${ic(home ? 'nest' : 'list')}</span>
-    <span class="main"><span class="t">${esc(s.label || (home ? 'Home' : 'Groceries'))}</span><br><span class="s">${fmtDate(s.date)} · ${home ? 'Home fund' : 'Groceries'} · ${esc(firstName(s.by))}</span></span>
+    <span class="main"><span class="t">${esc(s.label || (home ? 'Home' : 'Groceries'))}</span><br><span class="s">${fmtDate(s.date)} · ${home ? 'Home fund' : 'Groceries'}</span></span>
     <span class="amt num">-${money(s.amount)}</span></button>`;
 }
 
@@ -490,7 +476,7 @@ function vNest() {
 }
 
 function vBudget() {
-  const t = totals(), L = t.L, st = settle();
+  const t = totals(), L = t.L;
   const days = [];
   if (ui.range === 'week') {
     for (let i = 6; i >= 0; i--) { const d = new Date(); d.setDate(d.getDate() - i); days.push({key: iso(d), label: d.toLocaleDateString('en-US',{weekday:'short'}), match: s => s.date === iso(d)}); }
@@ -503,8 +489,7 @@ function vBudget() {
   const top = max > 0 ? niceMax(max) : 100;
   const hist = [...S.spend].sort((a,b) => (b.date||'').localeCompare(a.date||'') || b.createdAt - a.createdAt);
   const pct = (v,l) => Math.min(100, Math.max(0, v/l*100));
-  const ids = st.ids.length ? st.ids : [me].filter(Boolean);
-  return `${header('Insights', 'Shared spending across groceries and home', `<button class="pill-btn" data-act="range">${ui.range === 'week' ? 'Week' : 'Month'} ▾</button>`)}
+  return `${header('Insights', 'Joint account spending on groceries and home', `<button class="pill-btn" data-act="range">${ui.range === 'week' ? 'Week' : 'Month'} ▾</button>`)}
   ${banner()}
   <section class="chart" aria-label="Spending per ${ui.range === 'week' ? 'day' : 'week'}">
     <div class="bars">${cols.map(c => `<div class="bcol ${c.v && c.v === max ? 'max' : ''}"><span class="v">${c.v ? money0(c.v) : ''}</span>
@@ -519,11 +504,6 @@ function vBudget() {
     <button class="btn ghost" data-act="limits">Edit budgets</button>
   </section>
 
-  <section class="outline settle">
-    <div class="avs">${ids.map(i => avatar(i)).join('')}</div>
-    <div class="main">${st.owes ? `<b>${esc(firstName(st.owes.from))} ${st.owes.from===me?'owe':'owes'} ${esc(firstName(st.owes.to)==='You'?'you':firstName(st.owes.to))} ${money(st.owes.amount)}</b>` : `<b>You’re even</b>`}
-      <div class="muted num" style="font-size:13px">${ids.map(i => `${esc(firstName(i))} paid ${money0(st.by[i] || 0)}`).join(' · ') || 'Nothing paid yet'} in ${monthName()}</div></div>
-  </section>
 
   <section style="display:flex;flex-direction:column;gap:12px">
     <div class="sec-head"><h2>History</h2><button class="pill-btn" data-act="spend-new">+ Expense</button></div>
@@ -576,26 +556,19 @@ function shopSheet(x) {
 function checkoutSheet() {
   const done = S.shop.filter(x => x.done), est = done.reduce((a,x) => a + num(x.price), 0);
   openSheet('Check out', `<form class="form" data-form="checkout">
-    <p class="muted" style="margin:0">${done.length} item${done.length===1?'':'s'} in the basket. Enter what you actually paid. It’s added to the groceries budget and the items leave the list.</p>
-    <label>Total paid<input class="field" id="co-total" name="total" inputmode="decimal" required value="${est ? est.toFixed(2) : ''}" placeholder="$0.00"></label>
+    <p class="muted" style="margin:0">${done.length} item${done.length===1?'':'s'} in the basket. Enter what you paid from the joint account. It’s added to the groceries budget and the items leave the list.</p>
+    <label>Total paid from joint account<input class="field" id="co-total" name="total" inputmode="decimal" required value="${est ? est.toFixed(2) : ''}" placeholder="$0.00"></label>
     <div class="grid2"><label>Store<input class="field" id="co-store" name="store" placeholder="e.g. Trader Joe’s"></label>
     <label>Date<input class="field" id="co-date" name="date" type="date" value="${today()}"></label></div>
-    ${paidBySelect('co-by', me)}
     <button class="btn full" type="submit">Log ${done.length} item${done.length===1?'':'s'} as bought</button></form>`);
 }
-function paidBySelect(id, cur) {
-  const p = partnerId();
-  if (!p) return `<input type="hidden" name="by" value="${esc(me || 'me')}">`;
-  return `<label>Paid by<select class="field" id="${id}" name="by">${opt(me, cur, 'You')}${opt(p, cur, firstName(p))}</select></label>`;
-}
 function spendSheet(s) {
-  s = s || {section: ui.tab === 'nest' ? 'home' : 'groceries', date: today(), by: me};
+  s = s || {section: ui.tab === 'nest' ? 'home' : 'groceries', date: today()};
   openSheet(s.id ? 'Edit expense' : 'Log an expense', `<form class="form" data-form="spend" ${s.id ? `data-id="${s.id}"` : ''}>
     <label>What for<input class="field" id="sp-label" name="label" value="${esc(s.label || '')}" required placeholder="e.g. Farmers market"></label>
     <div class="grid2"><label>Amount<input class="field" id="sp-amount" name="amount" inputmode="decimal" required value="${s.amount ? esc(s.amount) : ''}" placeholder="$0.00"></label>
     <label>Date<input class="field" id="sp-date" name="date" type="date" value="${esc(s.date || today())}"></label></div>
     <label>Budget<select class="field" id="sp-section" name="section">${opt('groceries', s.section, 'Groceries')}${opt('home', s.section, 'Home fund')}</select></label>
-    ${paidBySelect('sp-by', s.by === 'me' ? me : s.by)}
     ${s.furnitureId ? `<div class="muted" style="font-size:13px">Linked to a furniture purchase. Deleting it moves the piece back to the purchase list.</div>` : ''}
     <div class="${s.id ? 'grid2' : ''}">${s.id ? delBtn('spend') : ''}<button class="btn ${s.id ? '' : 'full'}" type="submit">${s.id ? 'Save' : 'Add expense'}</button></div></form>`, {col:'spend', id:s.id});
 }
@@ -733,7 +706,7 @@ document.addEventListener('submit', async e => {
     case 'shop-edit': closeSheet(); await upd('shop', id, {name: fd.name.trim(), qty: fd.qty.trim(), price: fd.price ? num(fd.price) : null, aisle: fd.aisle}); break;
     case 'checkout': {
       const done = S.shop.filter(x => x.done); closeSheet();
-      const sid = await add('spend', {label: fd.store.trim() || 'Grocery run', amount: num(fd.total), section:'groceries', date: fd.date || today(), items: done.length, by: fd.by || me || 'me'});
+      const sid = await add('spend', {label: fd.store.trim() || 'Grocery run', amount: num(fd.total), section:'groceries', date: fd.date || today(), items: done.length});
       if (sid === null) return;
       for (const x of done) await del('shop', x.id);
       toast(`${money(num(fd.total))} logged to groceries`); break;
@@ -741,7 +714,7 @@ document.addEventListener('submit', async e => {
     case 'spend': {
       const data = {label: fd.label.trim(), amount: num(fd.amount), date: fd.date || today(), section: fd.section};
       closeSheet();
-      if (id) await upd('spend', id, {...data, by: fd.by || me}); else await add('spend', {...data, by: fd.by || me || 'me'});
+      if (id) await upd('spend', id, data); else await add('spend', data);
       break;
     }
     case 'limits': closeSheet(); await saveSettings({groceries: num(fd.groceries) || DEFAULTS.groceries, home: num(fd.home) || DEFAULTS.home}); toast('Budgets saved'); break;
